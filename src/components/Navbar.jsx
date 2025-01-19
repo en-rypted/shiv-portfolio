@@ -10,7 +10,7 @@ export const Navbar = () => {
   let names = {
     "/" : "<shiv/>",
     "/about" : "#about",
-    "/projects" : "#projects"
+    "/projects" : "#project"
   }
   const location = useLocation();
   const handleOnclick = (e) =>{
