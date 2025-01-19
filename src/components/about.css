@@ -1,0 +1,30 @@
+.about-container{
+  display: flex;
+  
+   flex-direction: column;
+   align-items: center;
+  
+  }
+
+  .about{
+   margin-top: 200px;
+   display: flex; 
+   align-items: center;
+   .img-bag{
+    width: 240px;
+    height: 250px;
+    background-color: rgb(26, 26, 26);
+    margin-right: 200px;
+    margin-left: -200px;
+    #profile{
+        position: relative;
+        right: 20px;
+        bottom: 20px;
+    }
+   }
+
+   p{
+    font-size: large;
+    padding: 10px;
+   }
+  }

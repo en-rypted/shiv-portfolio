@@ -1,0 +1,39 @@
+.navbar{
+   z-index: 1;
+    background-color: transparent;
+    background-image: radial-gradient(transparent 1px, rgb(15, 17, 21), #292929 1px);
+    background-size: 4px 4px;
+    backdrop-filter: blur(3px);
+    mask: linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
+    opacity: 1;
+    height: 130px;
+    width: 100%;
+    position: fixed;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+
+      
+}
+.logo{
+    margin-left: 70px;
+    font-size: xx-large;
+    color: rgb(0, 255, 110);
+}
+
+.list-container{
+    font-size: larger;
+    display: flex;
+    margin-right: 40px;
+    li {
+        display: inline;
+        margin-left: 25px
+      }
+    
+    ul{
+        margin: 0;
+      }
+
+     
+}

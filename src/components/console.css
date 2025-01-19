@@ -1,0 +1,43 @@
+
+.console-container{
+  margin-top: 325px;
+  width: 50%;
+  margin-left: 25%;
+}
+
+
+.cmd-cont {
+  display: flex;
+  flex-direction: column;
+  background: #1b1b1b;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.header {
+  height: 35px;
+  background: #292929;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.tool {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: space-evenly;
+  width: 70px;
+}
+
+#text {
+  span {
+    border-right: 0.05em solid;
+    animation: caret 1s steps(1) infinite;
+  }
+}
+
+@keyframes caret {
+  50% {
+    border-color: transparent;
+  }
+}
