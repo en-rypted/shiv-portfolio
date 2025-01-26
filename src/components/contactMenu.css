@@ -1,0 +1,14 @@
+.contact-container{
+    max-width:  400px;
+    width: 400px;
+    min-height: 60px;
+    background-color: rgba(255, 255, 255, 0.418);  
+    justify-self: center; 
+    margin-top: 150px;
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: xx-large;
+}

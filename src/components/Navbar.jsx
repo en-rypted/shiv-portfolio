@@ -29,7 +29,7 @@ export const Navbar = () => {
          initial={{opacity:0}}
          animate ={{opacity:1}}
          end={{opacity:0}}
-         >
+         >  
           {name}
         </motion.div>
         <div className='list-container'>

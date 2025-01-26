@@ -7,6 +7,7 @@ import { Navbar } from './components/Navbar'
 import { About } from './components/About'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AnimatedRoutes } from './components/AnimatedRoutes'
+import { ContatctMenu } from './components/ContatctMenu'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -22,6 +23,7 @@ function App() {
     <BrowserRouter>
       <Navbar/>
       <AnimatedRoutes/>
+      <ContatctMenu/>
     </BrowserRouter>
     </>
   )
