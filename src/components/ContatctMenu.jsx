@@ -30,11 +30,15 @@ export const ContatctMenu = () => {
     },
   ];
   return (
-    <div className="contact-container">
+    <motion.div className="contact-container"
+      initial={{opacity:0.2}}
+      whileHover={{ opacity:1 }}
+    >
       {array.map((ele, index) => {
         return (
           <motion.div
-            whileHover={{ scale: 1.2, translateY: -20 ,color: ele.color }}
+            initial={{opacity:0.2}}
+            whileHover={{ scale: 1.2, translateY: -20 ,color: ele.color, opacity:1 }}
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring" }}
             key={index}
@@ -49,6 +53,6 @@ export const ContatctMenu = () => {
         <i className='fa-brands fa-linkedin'></i>
         <i className='fa-brands fa-whatsapp'></i>
         <i className='fa-brands fa-discord'></i> */}
-    </div>
+    </motion.div>
   );
 };
