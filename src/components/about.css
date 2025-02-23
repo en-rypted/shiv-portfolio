@@ -10,16 +10,15 @@
    margin-top: 200px;
    display: flex; 
    align-items: center;
-   .img-bag{
-    width: 240px;
-    height: 250px;
-    background-color: rgb(26, 26, 26);
+  
+   .img{
     margin-right: 200px;
     margin-left: -200px;
+    img{
+      box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    }
     #profile{
         position: relative;
-        right: 20px;
-        bottom: 20px;
     }
    }
 
