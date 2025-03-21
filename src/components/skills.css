@@ -1,0 +1,38 @@
+.hexagon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 110px;
+    background: linear-gradient(to bottom,rgba(240,240,203, 0.493),rgba(255,140,0,0));
+    /* background-color: rgba(240,240,203, 0.493); */
+    clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    position: relative;
+    margin: 2px;
+    color: aliceblue;
+    font-size: 50px;
+    
+}
+
+.hex-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 800px;
+    margin-top: 15%;
+    /* background-color: antiquewhite; */
+    justify-self: center;
+}
+
+.hex-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -25px;
+}
+
+.hex-row:nth-child(even){
+    margin-left: 50px;
+}
+
+#skill-icon{
+    width: 70%;
+}
