@@ -5,6 +5,8 @@ import { About } from './About'
 import { AnimatePresence } from "motion/react"
 import { Projects } from './Projects'
 import { Skills } from './Skills'
+import { ContactUs } from './ContactUs'
+import { Experience } from './Experience'
 
 export const AnimatedRoutes = () => {
     const location = useLocation()
@@ -17,6 +19,8 @@ export const AnimatedRoutes = () => {
     <Route path="/about"  element={<About/>}/>
     <Route path="/projects"  element={<Projects/>}/>
     <Route path="/skills"  element={<Skills/>}/>
+    <Route path="/experience"  element={<Experience/>}/>
+    <Route path="/contactUs"  element={<ContactUs/>}/>
   </Routes>
   </AnimatePresence>
   )

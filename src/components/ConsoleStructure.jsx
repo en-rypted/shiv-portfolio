@@ -4,10 +4,10 @@ import './console.css'
 export const ConsoleStructure = ({height,width,content}) => {
   return (
     <div className="cmd-cont" >
-        <div className="header" style={{width:width+10}}>
-          {" "}
+        {/* <div className="header" style={{width:width}}>
+          
           <div className="tool">
-            <i
+            { <i
               style={{ color: "red" }}
               className="fa-solid fa-circle-xmark"
             ></i>
@@ -18,9 +18,21 @@ export const ConsoleStructure = ({height,width,content}) => {
             <i
               style={{ color: "green" }}
               className="fa-solid fa-circle-chevron-up"
-            ></i>
+            ></i>}
           </div>
+        </div> */}
+        <div className="screen-header" style={{width:width}}>
+        <div className="screen-header-left">
+          <div className="screen-header-button close"></div>
+          <div className="screen-header-button maximize"></div>
+          <div className="screen-header-button minimize"></div>
         </div>
+        <div className="screen-header-right">
+          <div className="screen-header-ellipsis"></div>
+          <div className="screen-header-ellipsis"></div>
+          <div className="screen-header-ellipsis"></div>
+        </div>
+      </div>
         <div style={{...type_wirter_box, height : height,  width: width }}>
           <code markup="tt">
             {content}

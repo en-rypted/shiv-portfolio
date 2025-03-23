@@ -1,0 +1,38 @@
+.exp-container{
+   
+    margin-top: 8%;
+  width: 60%;
+  /* margin-left: 25%; */
+  justify-self: center;
+  
+}
+
+.content-ex{
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px 20px 20px;
+  font-family: "JetBrains Mono";
+  line-height: 1.5;
+  h4{
+    font-weight: 200;
+    font-size: x-large;
+  }
+  h6{
+    margin-top: -20px;
+    font-weight: 300;
+    font-size: large;
+    color: rgb(177, 177, 177);
+  }
+
+  label{
+    margin-bottom: 10px;
+    font-weight: 300;
+    font-size: large;
+  }
+  p{
+    font-weight: 200;
+    font-size: medium;
+  }
+
+
+}

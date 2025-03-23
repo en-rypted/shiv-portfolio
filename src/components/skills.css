@@ -14,11 +14,12 @@
     
 }
 
+
 .hex-container {
     display: flex;
     flex-wrap: wrap;
     width: 800px;
-    margin-top: 15%;
+    margin-top: 10%;
     /* background-color: antiquewhite; */
     justify-self: center;
 }

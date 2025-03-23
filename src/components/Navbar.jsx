@@ -11,7 +11,9 @@ export const Navbar = () => {
     "/" : "<shiv/>",
     "/about" : "#about",
     "/projects" : "#project",
-    "/skills" : "#skills"
+    "/skills" : "#skills",
+    "/contactUs" : "#contactUs",
+    "/experience" : "#experience"
   }
   const location = useLocation();
   const handleOnclick = (e) =>{
@@ -39,8 +41,8 @@ export const Navbar = () => {
                 <li><Link to="/about" onClick={handleOnclick}   value="#about">About</Link></li>
                 <li><Link to="/projects" onClick={handleOnclick}>Projects</Link></li>
                 <li><Link to="/skills" onClick={handleOnclick}>Skills</Link></li>
-                <li><Link to="/" onClick={handleOnclick}>Experience</Link></li>
-                <li><Link to="/" onClick={handleOnclick}>Contact</Link></li>
+                <li><Link to="/experience" onClick={handleOnclick}>Experience</Link></li>
+                <li><Link to="/contactUs" onClick={handleOnclick}>Contact</Link></li>
             </ul>
         </div>
       
