@@ -18,3 +18,9 @@
     justify-content: space-around;
     font-size: xx-large;
 }
+
+#social-icon{
+  margin-top: 10px;
+  align-self: center;
+ width: 40px;
+}
