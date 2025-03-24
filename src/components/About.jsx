@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import "./about.css";
 import { ConsoleStructure } from "./ConsoleStructure";
 import imag from "../assets/pfp.png";
 import { motion } from "motion/react";
 import { FloatingImage } from "./animatedComponents/FloatingImage";
+import isMobileContext from "../context/isMobileContext";
 
 export const About = () => {
+  const isMobile = useContext(isMobileContext)
   let aboutMe = {
     img : imag,
     desc : `Hi, I'm Shiv, a Java Web Developer & Full-Stack Enthusiast with 2 years of experience in building scalable and secure web applications.
@@ -28,14 +30,15 @@ Looking forward to contributing to innovative solutions, collaborating with like
     >
       <div className="about">
          <div className='img'>
-            <FloatingImage image={aboutMe.img}/>
+            <FloatingImage image={aboutMe.img} width={isMobile ? 125 : undefined} height={isMobile ? 150 : undefined}/>
             </div> 
    
 
         <div>
           <ConsoleStructure
-            height={"400px"}
-            width={700}
+            height={isMobile ? 600 :"400px"}
+            width={isMobile ? 350 :700}
+            margin={'0px 50px 150px 0px'}
             content={
               <>
                 <p>

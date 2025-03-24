@@ -1,9 +1,9 @@
 import React from 'react'
 import './console.css'
 
-export const ConsoleStructure = ({height,width,content}) => {
+export const ConsoleStructure = ({height,width,content,margin}) => {
   return (
-    <div className="cmd-cont" >
+    <div className="cmd-cont" style={{margin : margin }}>
         {/* <div className="header" style={{width:width}}>
           
           <div className="tool">

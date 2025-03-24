@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import './console.css'
 import { ConsoleStructure } from "./ConsoleStructure";
 import { motion } from "motion/react"
+import isMobileContext from "../context/isMobileContext";
 
 
 const Console = () => {
+
+  const isMobile = useContext(isMobileContext)
 
     useEffect(()=>{
         loader()
@@ -61,8 +64,8 @@ const Console = () => {
 
     
       <ConsoleStructure 
-      height={120}
-      width={700}
+      height={isMobile ? 150 :120}
+      width={isMobile ? 350 :700}
       content={
         <> <span>{">_"}</span>
         <br />

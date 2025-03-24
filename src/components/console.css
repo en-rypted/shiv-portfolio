@@ -56,7 +56,7 @@
 .cmd-cont {
   display: flex;
   flex-direction: column;
-  background: #1b1b1b;
+  background: hsl(0, 0%, 11%);
   border-radius: 10px;
   width: 300px;
 }
@@ -86,5 +86,14 @@
 @keyframes caret {
   50% {
     border-color: transparent;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+
+  .console-container{
+    margin-top: 65%;
+    width: 80%;
   }
 }

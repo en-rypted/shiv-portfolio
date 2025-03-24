@@ -11,7 +11,7 @@
 body{
   margin: 0;
   display: flex;
-  
+  max-width: 100% !important;
   font-family: "JetBrains Mono";
   line-height: 1.5;
   font-weight: 400;

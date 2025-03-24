@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from "motion/react";
 
-export const FloatingImage = ({image}) => {
+export const FloatingImage = ({image , width , height}) => {
   return (
     <div className="flex justify-center items-center w-full h-screen relative">
     {/* Glowing Background Effect */}
@@ -37,7 +37,7 @@ export const FloatingImage = ({image}) => {
         repeat: Infinity,
         ease: "easeInOut",
       }}
-      style={{ width: "256px", height: "306px", objectFit: "cover" }}
+      style={{ width: width ? width :"256px", height: height ? height : "306px", objectFit: "cover" }}
     />
    </div>
   )
