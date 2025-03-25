@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './skills.css'
 import { motion } from 'motion/react'
 import { Hexagon, HexagonLoader } from './animatedComponents/Hexagon'
@@ -7,17 +7,21 @@ import { getDocs ,collection } from 'firebase/firestore'
 import Skeleton , { SkeletonTheme }from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 //import java from '../assets/icons/java.svg'
-import {icons} from '../assets/icons/icons'
+import {icons , inconsMobile} from '../assets/icons/icons'
+import isMobileContext from '../context/isMobileContext'
 export const Skills = () => {
     const [skills , setSkills] = useState({});
     const skillsRef = collection(db , "skills");
     const [isLoding , setIsLoading] = useState(true);
+    const isMobile = useContext(isMobileContext)
+    let fakeSkills = isMobile ? inconsMobile : icons;
 
     useEffect(()=>{
       const getSkills = async () =>{
         try {
+          let index = isMobile ? 1 : 0;
           const data = await getDocs(skillsRef);
-          const filterdData = data.docs[0].data();
+          const filterdData = data.docs[index].data();
           console.log(filterdData);
           setSkills(filterdData)
           setIsLoading(false)
@@ -36,9 +40,9 @@ export const Skills = () => {
        animate={{ transform: "translateY(0px)" , opacity : 1 }}
        transition={{ type: "spring" }}
          >
-           {Object.keys(icons).sort().map((ele)=>{
+           {Object.keys(fakeSkills).sort().map((ele)=>{
                return <div className='hex-row' key={ele}>
-                   {icons[ele].map((ele2)=>{
+                   {fakeSkills[ele].map((ele2)=>{
                return <HexagonLoader  bg={ele2.bg ? ele2.bg : null} key={ele2.name} name={ele2.svg}/>
               })}
                </div>

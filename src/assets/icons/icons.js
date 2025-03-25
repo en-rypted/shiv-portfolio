@@ -334,4 +334,144 @@ row4 : [
 ]
 }
 
-export { icons };
+
+let inconsMobile = {
+    row0 : [
+      {
+        name: "fake",
+        svg: ``,
+        
+      },
+      {
+        name: "fake1",
+        svg: ``,
+        
+      },
+      {
+        name: "fake",
+        svg: ``,
+        
+      }
+    ],
+    row1 : [
+      {
+        name: "fake2",
+        svg: ``,
+        
+      },
+      {
+        name: "fake3",
+        svg: ``,
+        
+      },
+      {
+        name: "fake4",
+        svg: ``,
+        
+      }
+    ],
+    row2 : [
+      {
+        name: "fake5",
+        svg: ``,
+        
+      },
+      {
+        name: "fake6",
+        svg: ``,
+        
+      },
+      {
+        name: "fake7",
+        svg: ``,
+        
+      }
+    ],
+    row3 : [
+      {
+        name: "fake8",
+        svg: ``,
+        
+      },
+      {
+        name: "fake9",
+        svg: ``,
+        
+      },
+      {
+        name: "fake10",
+        svg: ``,
+        
+      }
+    ],
+    row4 : [
+      {
+        name: "fake11",
+        svg: ``,
+        
+      },
+      {
+        name: "fake12",
+        svg: ``,
+        
+      },
+      {
+        name: "fake14",
+        svg: ``,
+        
+      }
+    ],
+    row5 : [
+      {
+        name: "fake15",
+        svg: ``,
+        
+      },
+      {
+        name: "fake16",
+        svg: ``,
+        
+      },
+      {
+        name: "fake17",
+        svg: ``,
+        
+      }
+    ],
+    row6 : [
+      {
+        name: "fake18",
+        svg: ``,
+        
+      },
+      {
+        name: "fake19",
+        svg: ``,
+        
+      },
+      {
+        name: "fake20",
+        svg: ``,
+        
+      }
+    ],
+    row7 : [
+      {
+        name: "fake21",
+        svg: ``,
+        
+      },
+      {
+        name: "fake22",
+        svg: ``,
+        
+      },
+      {
+        name: "fake23",
+        svg: ``,
+        
+      }
+    ],
+    
+}
+export { icons ,inconsMobile };

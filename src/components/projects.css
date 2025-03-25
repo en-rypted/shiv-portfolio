@@ -27,3 +27,21 @@
     border-radius: 50%;
     background-color: aquamarine;
 }
+
+#dec-project{
+  font-size: medium;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+#img-project {
+  margin-top: 20px;
+  width: 250px;
+  height: 150px;
+  margin-left: 15px;
+}
+
+#pro-title{
+  margin-top: 10px;
+  margin-left: 15px;
+}

@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './projects.css'
 import { motion, spring } from 'motion/react'
+import isMobileContext from '../context/isMobileContext'
+import { ConsoleStructure } from './ConsoleStructure'
+import interior from '../assets/image.png'
 export const Projects = () => {
   const [index , setIndex] = useState(0)
+  const isMobile = useContext(isMobileContext)
   let arry = [{
     title:"CSS",
     deiscription : "Gold Roger was known as the 'Pirate King,' the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger by the World Government brought a change throughout the world. His last words before his death revealed the existence of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece—which promises an unlimited amount of riches and fame—and quite possibly the pinnacle of glory and the title of the Pirate King. Enter Monkey Luffy, a 17-year-old boy who defies your standard definition of a pirate. Rather than the popular persona of a wicked, hardened, toothless pirate ransacking villages for fun, Luffy's reason for being a pirate is one of pure wonder: the thought of an exciting adventure that leads him to intriguing people and ultimately, the promised treasure. Following in the footsteps of his childhood hero, Luffy and his crew travel across the Grand Line, experiencing crazy adventures, unveiling dark mysteries and battling strong enemies, all in order to reach the most coveted of all fortunes—One Piece",
@@ -25,6 +29,10 @@ export const Projects = () => {
   },
 ]
   return (
+    <>
+    {isMobile
+      ?  <ProjectForMobile/>
+      :
     <div className='project-container' onClick={()=>{
       index < arry.length -1 ? setIndex(index+1) : setIndex(0)
     }}>
@@ -45,5 +53,49 @@ export const Projects = () => {
           key={index}
         ></motion.div>
     </div>
+  }
+  </>
   )
+}
+
+
+let ProjectForMobile = () =>{
+  let arry = [{
+    title:"CSS",
+    deiscription : "Gold Roger was known as the 'Pirate King,' the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger by the World Government brought a change throughout the world. His last words before his death revealed the existence of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece—which promises an unlimited amount of riches and fame—and quite possibly the pinnacle of glory and the title of the Pirate King. Enter Monkey Luffy, a 17-year-old boy who defies your standard definition of a pirate. Rather than the popular persona of a wicked, hardened, toothless pirate ransacking villages for fun, Luffy's reason for being a pirate is one of pure wonder: the thought of an exciting adventure that leads him to intriguing people and ultimately, the promised treasure. Following in the footsteps of his childhood hero, Luffy and his crew travel across the Grand Line, experiencing crazy adventures, unveiling dark mysteries and battling strong enemies, all in order to reach the most coveted of all fortunes—One Piece",
+    image : "red"
+  },
+  {
+    title:"Python",
+    deiscription : `Gold Roger was known as the "Pirate King," the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger by the World Government brought a change throughout the world. His last words before his death revealed the existence of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece—which promises an unlimited amount of riches and fame—and quite possibly the pinnacle of glory and the title of the Pirate King. Enter Monkey Luffy, a 17-year-old boy who defies your standard definition of a pirate. Rather than the popular persona of a wicked, hardened, toothless pirate ransacking villages for fun, Luffy's reason for being a pirate is one of pure wonder: the thought of an exciting adventure that leads him to intriguing people and ultimately, the promised treasure. Following in the footsteps of his childhood hero, Luffy and his crew travel across the Grand Line, experiencing crazy adventures, unveiling dark mysteries and battling strong enemies, all in order to reach the most coveted of all fortunes—One Piece`,
+    image : "green"
+  },
+  {
+    title:"Java",
+    deiscription : `Gold Roger was known as the "Pirate King," the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger by the World Government brought a change throughout the world. His last words before his death revealed the existence of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece—which promises an unlimited amount of riches and fame—and quite possibly the pinnacle of glory and the title of the Pirate King. Enter Monkey Luffy, a 17-year-old boy who defies your standard definition of a pirate. Rather than the popular persona of a wicked, hardened, toothless pirate ransacking villages for fun, Luffy's reason for being a pirate is one of pure wonder: the thought of an exciting adventure that leads him to intriguing people and ultimately, the promised treasure. Following in the footsteps of his childhood hero, Luffy and his crew travel across the Grand Line, experiencing crazy adventures, unveiling dark mysteries and battling strong enemies, all in order to reach the most coveted of all fortunes—One Piece`,
+    image : "purple"
+  },
+  {
+    title:"Javascript",
+    deiscription : `Gold Roger was known as the "Pirate King," the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger by the World Government brought a change throughout the world. His last words before his death revealed the existence of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece—which promises an unlimited amount of riches and fame—and quite possibly the pinnacle of glory and the title of the Pirate King. Enter Monkey Luffy, a 17-year-old boy who defies your standard definition of a pirate. Rather than the popular persona of a wicked, hardened, toothless pirate ransacking villages for fun, Luffy's reason for being a pirate is one of pure wonder: the thought of an exciting adventure that leads him to intriguing people and ultimately, the promised treasure. Following in the footsteps of his childhood hero, Luffy and his crew travel across the Grand Line, experiencing crazy adventures, unveiling dark mysteries and battling strong enemies, all in order to reach the most coveted of all fortunes—One Piece`,
+    image : "yellow"
+  },
+]
+   return (
+     <div style={{display:'flex' , flexDirection:'column' , justifyContent:'space-between' , alignItems:'center' , paddingTop:'150px' , paddingBottom:'150px',scrollBehavior:'smooth'}}>
+       {arry.map((ele)=>{
+        return (
+        <ConsoleStructure
+          margin={'30px 0px 0px 0px'}
+          width={300}
+          height={400}
+          content={<>
+            <img id='img-project' src={interior}></img>
+            <div id='pro-title'>{ele.title}</div>
+            <p id='dec-project'>{ele.deiscription.substring(0,200)+'....'}</p>
+          </>}
+        />)
+       })}
+     </div>
+   )
 }
