@@ -20,6 +20,7 @@
 }
 
 #social-icon{
+  cursor: pointer;
   margin-top: 10px;
   align-self: center;
  width: 40px;

@@ -69,8 +69,8 @@ const Console = () => {
       content={
         <> <span>{">_"}</span>
         <br />
-        <span style={{ color: "green" }}>C:\system32$ ~</span>{" "}
-        <span id="text"></span></>
+        <span style={{ color: "green",fontSize : isMobile ? 'x-large' : undefined}}>{isMobile ? 'C:19>' :"C:\\system32$ ~"}</span>{" "}
+        <span id="text" style={{ fontSize : isMobile ? 'x-large' : undefined}}></span></>
       } />
       </motion.div>
     </>
