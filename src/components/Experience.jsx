@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ConsoleStructure } from './ConsoleStructure'
 import './experience.css'
+import isMobileContext from '../context/isMobileContext'
 
 export const Experience = () => {
+  const isMobile = useContext(isMobileContext)
   return (
     <div className='exp-container'>
 
-    <ConsoleStructure width={1000} content={<div className='content-ex'>
+    <ConsoleStructure width={isMobile ? 375 : 1000} height={isMobile ? 700 : 1000} margin={isMobile ? '0px 0px 0px 0px' : 0} content={<div className='content-ex'>
         <h4>Company Name : TCS</h4>
         <h6>2022 - current</h6>
         <label htmlFor="">#role : Java Developer</label>

@@ -31,14 +31,16 @@ export const Navbar = () => {
  
   let name = names[location.pathname]
   return (
-    <>
-        <motion.div className='logo-mob'
+    <> <div className='navbar' style={{height : 100}}>
+         <motion.div className='logo-mob'
          initial={{opacity:0}}
          animate ={{opacity:1}}
          end={{opacity:0}}
          >  
           {name}
         </motion.div>
+    </div>
+       
     <div className={`navbar${isMobile  ? '-mob' : ''}`}>
         <motion.div className='logo'
          initial={{opacity:0}}
@@ -49,18 +51,17 @@ export const Navbar = () => {
         </motion.div>
         <div className={`list-container${isMobile ? '-mob' : ''}`}>
         {isMobile ? 
-        <ul>     
-        <li>
-
-          <Link to="/" onClick={handleOnclick} value="<shiv/>">
-           <motion.div
+        <>
+        <motion.div
               initial={{opacity:1}}
               whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring" }} >
-          <i className="fa-solid fa-house"></i>
-          </motion.div>
+              transition={{ type: "spring" }}  id='homeBut'><Link to="/" onClick={handleOnclick} value="<shiv/>">
+           <div>
+          <i className="fa-solid fa-house" style={{color:'black'}}></i>
+          </div>
           
-          </Link></li>
+          </Link></motion.div>
+        <ul>     
         <li><Link to="/about" onClick={handleOnclick}   value="#about">
         <motion.div
               initial={{opacity:1}}
@@ -102,6 +103,7 @@ export const Navbar = () => {
         </motion.div>
         </Link></li>
     </ul>
+    </>
         :
             <ul>
              

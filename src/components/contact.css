@@ -201,6 +201,13 @@
   }
   
   @media screen and (max-width: 520px) {
+    .screen {
+      margin: 50px;
+      margin-top: 33%;
+      /* position: relative;
+      background: #2c2c2c;
+      border-radius: 15px; */
+    }
     .screen-body {
       flex-direction: column;
     }

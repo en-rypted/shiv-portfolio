@@ -36,3 +36,47 @@
 
 
 }
+
+@media only screen and (max-width: 600px) {
+  .exp-container{
+   
+    margin-top: 20%;
+    margin-bottom: 50%;
+  width: 88%;
+  /* margin-left: 25%; */
+  justify-self: center;
+  
+}
+
+.content-ex{
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px 10px 10px;
+  font-family: "JetBrains Mono";
+  line-height: 1.5;
+  h4{
+    margin-top: 15px;
+    font-weight: 200;
+    font-size: 23px;
+  }
+  h6{
+    margin-bottom: 15px;
+    margin-top: -25px;
+    font-weight: 300;
+    font-size: medium;
+    color: rgb(177, 177, 177);
+  }
+
+  label{
+    margin-bottom: 10px;
+    font-weight: 300;
+    font-size: medium;
+  }
+  p{margin-top: 10px;
+    font-weight: 200;
+    font-size: small;
+  }
+
+
+}
+}

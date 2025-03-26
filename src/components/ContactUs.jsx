@@ -24,7 +24,6 @@ export const ContactUs = () => {
             <span>CONTACT</span>
             <span>ME</span>
           </div>
-          <div className="app-contact">CONTACT INFO : +91 9527827435</div>
         </div>
         <div className="screen-body-item">
           <div className="app-form">
