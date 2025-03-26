@@ -8,7 +8,7 @@ export const Experience = () => {
   return (
     <div className='exp-container'>
 
-    <ConsoleStructure width={isMobile ? 375 : 1000} height={isMobile ? 700 : 1000} margin={isMobile ? '0px 0px 0px 0px' : 0} content={<div className='content-ex'>
+    <ConsoleStructure width={isMobile ? 375 : 1000} height={isMobile ? 700 : undefined} margin={isMobile ? '0px 0px 0px 0px' : 0} content={<div className='content-ex'>
         <h4>Company Name : TCS</h4>
         <h6>2022 - current</h6>
         <label htmlFor="">#role : Java Developer</label>
