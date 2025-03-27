@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -8,12 +8,15 @@ import { About } from './components/About'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AnimatedRoutes } from './components/AnimatedRoutes'
 import { ContatctMenu } from './components/ContatctMenu'
+import loderContext from './context/loderContext'
+import { Loader } from './components/animatedComponents/Loader'
 function App() {
-  const [count, setCount] = useState(0)
+   const isLoader = useContext(loderContext);
+
 
   return (
     <>
-  
+   {isLoader.isLoder ? <Loader/> : ''}
     {/* <div className='console-container'>
       <Console/>
     </div>
@@ -25,6 +28,7 @@ function App() {
       <AnimatedRoutes/>
       <ContatctMenu/>
     </BrowserRouter>
+   
     </>
   )
 }
