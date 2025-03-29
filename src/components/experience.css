@@ -1,10 +1,7 @@
 .exp-container{
-   
-    margin-top: 8%;
-  width: 60%;
-  /* margin-left: 25%; */
+  margin-top: 100px;
   justify-self: center;
-  
+  width: 60%;
 }
 
 .content-ex{
@@ -36,15 +33,37 @@
 
 
 }
+#btns{
+  display: flex;
+  justify-content: space-between;
+}
+#next{
+  background-color: transparent;
+  border: none;
+  
+  margin-bottom: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+  color: greenyellow;
+}
+#prev{
+  background-color: transparent;
+  border: none;
+  margin-bottom: 20px;
+  margin-left: 15px;
+  cursor: pointer;
+  color: rgb(255, 127, 47);
+}
 
 @media only screen and (max-width: 600px) {
   .exp-container{
    
     margin-top: 20%;
     margin-bottom: 50%;
-  width: 88%;
+   width: 88%; 
   /* margin-left: 25%; */
   justify-self: center;
+ 
   
 }
 
@@ -78,5 +97,13 @@
   }
 
 
+}
+#next{
+  background-color: transparent;
+  border: none;
+  float: right;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  cursor: pointer;
 }
 }

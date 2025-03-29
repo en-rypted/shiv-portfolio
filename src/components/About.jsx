@@ -38,7 +38,7 @@ Looking forward to contributing to innovative solutions, collaborating with like
           <ConsoleStructure
             height={isMobile ? 600 :"400px"}
             width={isMobile ? 350 :700}
-            margin={'0px 50px 150px 0px'}
+             margin={ isMobile ?'0px 50px 150px 0px' : undefined}
             content={
               <>
                 <p>
