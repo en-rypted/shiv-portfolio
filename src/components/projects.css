@@ -4,10 +4,19 @@
 .project-container{
 
    display: flex;
-   flex-direction: column;
-   margin-top: 150px;
+   flex-direction: row;
+   margin-top: 100px;
+   justify-content: space-around;
     overflow: hidden;
+    padding-bottom: 27;
 
+}
+
+.project-inner{
+  margin-top: 20px;
+    display: flex;
+     flex-direction: column;
+    overflow: hidden;
 }
 
 .title{
@@ -19,13 +28,24 @@
     width: 700px;
 }
 
+.link{
+  margin-top: 100px;
+  margin-left: 100px;
+  width: 700px;
+}
+
 .image{
-     margin-left: 900px;
-    margin-top: -27%; 
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
+    margin-top: 140px;
+    /* margin-top: -27%;  */
+    /* width: 500px;
+    height: 500px; */
+    /* border-radius: 50%;  */
     background-color: aquamarine;
+    -webkit-mask-image: url(../assets/mask.svg);
+    mask-image: url(../assets/mask.svg);
+    mask-repeat: no-repeat;   
+    height: 500px; 
+
 }
 
 #dec-project{
@@ -44,4 +64,9 @@
 #pro-title{
   margin-top: 10px;
   margin-left: 15px;
+}
+
+#prj-img{
+ object-fit: fill;
+  width: 600px;
 }

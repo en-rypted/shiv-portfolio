@@ -13,7 +13,7 @@ export const Navbar = () => {
     "/about" : "#about",
     "/projects" : "#project",
     "/skills" : "#skills",
-    "/contactUs" : "#contactUs",
+    "/contactMe" : "#contactMe",
     "/experience" : "#experience"
   }
 
@@ -94,7 +94,7 @@ export const Navbar = () => {
         <i className="fa-solid fa-brain"></i>
         </motion.div>
         </Link></li>
-        <li><Link to="/contactUs" onClick={handleOnclick}>
+        <li><Link to="/contactMe" onClick={handleOnclick}>
         <motion.div
               initial={{opacity:1}}
               whileTap={{ scale: 0.9 }}
@@ -112,7 +112,7 @@ export const Navbar = () => {
                 <li><Link to="/projects" onClick={handleOnclick}>Projects</Link></li>
                 <li><Link to="/skills" onClick={handleOnclick}>Skills</Link></li>
                 <li><Link to="/experience" onClick={handleOnclick}>Experience</Link></li>
-                <li><Link to="/contactUs" onClick={handleOnclick}>Contact</Link></li>
+                <li><Link to="/contactMe" onClick={handleOnclick}>Contact</Link></li>
 
 
             </ul> }

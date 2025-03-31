@@ -20,7 +20,7 @@ export const AnimatedRoutes = () => {
     <Route path="/projects"  element={<Projects/>}/>
     <Route path="/skills"  element={<Skills/>}/>
     <Route path="/experience"  element={<Experience/>}/>
-    <Route path="/contactUs"  element={<ContactUs/>}/>
+    <Route path="/contactMe"  element={<ContactUs/>}/>
   </Routes>
   </AnimatePresence>
   )
