@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -10,19 +10,34 @@ import { AnimatedRoutes } from './components/AnimatedRoutes'
 import { ContatctMenu } from './components/ContatctMenu'
 import loderContext from './context/loderContext'
 import { Loader } from './components/animatedComponents/Loader'
+import SignIn from './components/SignIn'
+
 function App() {
    const isLoader = useContext(loderContext);
+const [showLogin , setShowLogin ] = useState(false);
+  const handleKeyPress = useCallback((event) => {
+    // check if the Shift key is pressed
+    if (event.shiftKey === true) {
+      if(event.key === "L"){
+        setShowLogin(true);
+      }
+    }
+  }, []);
 
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener('keydown', handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   return (
     <>
    {isLoader.isLoder ? <Loader/> : ''}
-    {/* <div className='console-container'>
-      <Console/>
-    </div>
-    <div className='about-container'>
-      <About/>
-    </div> */}
+   {showLogin&& <SignIn onClose={()=>{setShowLogin(false)}}></SignIn>}
     <BrowserRouter>
       <Navbar/>
       <AnimatedRoutes/>

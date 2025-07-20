@@ -6,7 +6,7 @@ import loderContext from '../context/loderContext'
 
 export const ContactUs = () => {
   const isloder = useContext(loderContext);
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     name: "",
     email: "",
     contact: "",
@@ -23,7 +23,7 @@ export const ContactUs = () => {
     try {
       
       isloder.update(true);
-      const res = await axios.post("https://portfolio-shiv-server.vercel.app/send-email", formData);
+            const res = await axios.post("https://portfolio-shiv-server.vercel.app/send-email", formData);
       isloder.update(false);
       setTimeout(() => {
         alert(res.data.message)
@@ -81,5 +81,5 @@ export const ContactUs = () => {
         </div>
       </div>
     </div>
-  )
+      )
 }

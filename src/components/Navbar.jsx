@@ -1,9 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 import './navbar.css'
 import { Link,useLocation} from 'react-router-dom'
 import { motion } from 'motion/react'
 import isMobileContext from '../context/isMobileContext'
+import { signOut } from "firebase/auth";
+import authContext from '../context/authContext'
+import { auth } from '../config/firebase'
+
+
 
 
 export const Navbar = () => {
@@ -16,10 +21,12 @@ export const Navbar = () => {
     "/contactMe" : "#contactMe",
     "/experience" : "#experience"
   }
+  const authUser = useContext(authContext);
 
   const isMobile = useContext(isMobileContext)
 
   const location = useLocation();
+  
   const handleOnclick = (e) =>{
    
     console.log(e.target.href)
@@ -113,10 +120,15 @@ export const Navbar = () => {
                 <li><Link to="/skills" onClick={handleOnclick}>Skills</Link></li>
                 <li><Link to="/experience" onClick={handleOnclick}>Experience</Link></li>
                 <li><Link to="/contactMe" onClick={handleOnclick}>Contact</Link></li>
-
+              {authUser.user != null &&  <li><button onClick={async () => {
+  await signOut(auth);
+  console.log("User signed out");
+}}>SignOut</button></li> }
 
             </ul> }
         </div>
+
+        
       
     </div>
 
