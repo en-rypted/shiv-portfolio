@@ -1,0 +1,122 @@
+.navbar{
+   z-index: 1;
+    background-color: transparent;
+    background-image: radial-gradient(transparent 1px, rgb(15, 17, 21), #292929 1px);
+    background-size: 4px 4px;
+    backdrop-filter: blur(3px);
+    mask: linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
+    opacity: 1;
+    height: 130px;
+    width: 100%;
+    position: fixed;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   a{
+   
+    text-decoration: none;
+  }
+
+      
+}
+.logo{
+  display: inline;
+    margin-left: 70px;
+    font-size: xx-large;
+    color: rgb(0, 255, 110);
+}
+
+.logo-mob{
+  display: none;
+}
+
+.list-container{
+    font-size: larger;
+    display: flex;
+    margin-right: 40px;
+    li {
+        display: inline;
+        margin-left: 25px
+      }
+    
+    ul{
+        margin: 0;
+      }
+
+     
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar-mob{
+    z-index: 1;
+     background-color: #292929;
+     /* background-image: radial-gradient(transparent 1px, rgb(15, 17, 21), #292929 1px); */
+     background-size: 4px 4px;
+     backdrop-filter: blur(10px);
+     /* mask: linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%); */
+    opacity: 1;
+    height: 150px;
+    width: 100%;
+    position: fixed !important;
+    margin-bottom: -30px;
+    display: flex;
+    bottom: 0;
+    align-items: center;      
+ }
+ .logo{display: none;}
+
+ 
+
+ .logo-mob{
+  z-index: 1;
+  position: fixed;
+  display: inline;
+  top : 0;
+  margin: 20px 40px 20px 40px;
+  font-size: xx-large;
+  color: rgb(0, 255, 110);
+}
+
+.list-container-mob{
+  font-size: 30px;
+  user-select: none; /* Prevents text selection */
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For IE/Edge */
+ 
+ 
+  width: 600px;
+  li {
+      display: inline;
+      margin-left: 0px;
+    }
+  
+  ul{ 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+     padding: 0;
+      margin: 0;
+    }
+    a {
+      color: rgb(255, 255, 255) !important;
+      text-decoration: none;
+    }
+}
+#homeBut{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 39%;
+  margin-top: -100px;
+  margin-bottom: 10px;
+  max-width: 80px;
+  min-height: 80px;
+  border-radius: 40px;
+  background-color: aliceblue;
+  border: solid;
+  border-width: 5px;
+  border-color: black;
+}
+}

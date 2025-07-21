@@ -1,0 +1,33 @@
+.contact-container{
+    position: fixed;
+    bottom: 0;
+  left: 0;
+  right: 0;
+    max-width:  400px;
+    width: 400px;
+    min-height: 60px;
+    background-color: rgba(255, 255, 255, 0.418);  
+     margin-left: 550px;
+    margin-bottom: 30px; 
+    /* margin-top: 150px; */
+    z-index: 1;
+    border-radius: 30px;
+    backdrop-filter: blur(30px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: xx-large;
+}
+
+#social-icon{
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: center;
+ width: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+  .contact-container{
+    display: none;
+  }
+}

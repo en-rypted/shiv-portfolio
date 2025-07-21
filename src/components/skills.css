@@ -1,0 +1,75 @@
+.hexagon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 110px;
+    background: linear-gradient(to bottom,rgba(240,240,203, 0.493),rgba(255,140,0,0));
+    /* background-color: rgba(240,240,203, 0.493); */
+    clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    position: relative;
+    margin: 2px;
+    color: aliceblue;
+    font-size: 50px;
+    
+}
+
+
+.hex-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 800px;
+    margin-top: 10%;
+    /* background-color: antiquewhite; */
+    justify-self: center;
+}
+
+.hex-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -25px;
+}
+
+.hex-row:nth-child(even){
+    margin-left: 50px;
+}
+
+#skill-icon{
+    width: 70%;
+}
+
+@media only screen and (max-width: 600px)  {
+    .hex-container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 80%;
+        margin-top: 25%;
+        /* background-color: antiquewhite; */
+        justify-self: center;
+        padding-bottom: 45%;
+    }
+
+    .hexagon {
+        scale: 0.9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 110px;
+    background: linear-gradient(to bottom,rgba(240,240,203, 0.493),rgba(255,140,0,0));
+    /* background-color: rgba(240,240,203, 0.493); */
+    clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    position: relative;
+    margin: 2px;
+    color: aliceblue;
+    font-size: 50px;
+    margin-right: -7px;
+    
+}
+.hex-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -37px;
+}
+}
+

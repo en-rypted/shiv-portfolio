@@ -1,0 +1,34 @@
+.editor-wrapper {
+  position: fixed;              /* ⛓ Fix position on screen */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 🎯 Center on screen */
+  z-index: 9999;                /* 📦 Stay above everything */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Optional: dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+   
+}
+
+.editor-glass {
+  width: 80%;
+  max-width: 1500px;
+  height: 600px;
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.05);
+  /* border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px; */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* Optional: make Monaco background transparent */
+.monaco-editor,
+.monaco-editor .margin,
+.monaco-editor-background {
+  background-color: transparent !important;
+}
