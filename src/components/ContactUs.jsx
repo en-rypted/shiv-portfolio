@@ -51,7 +51,7 @@ export const ContactUs = () => {
     try {
       isloder.update(true);
       const res = await axios.post(
-        devurl,
+        produrl,
         formData,
         { withCredentials: true }
       );
