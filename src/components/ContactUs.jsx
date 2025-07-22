@@ -2,9 +2,12 @@ import React, { useContext, useState } from 'react'
 import './contact.css'
 import axios from 'axios'
 import loderContext from '../context/loderContext'
-
+import { useFormValidation } from '../hooks/useFormValidation';
+import { useAlert } from '../context/AlertContext';
 
 export const ContactUs = () => {
+  const produrl = "https://portfolio-shiv-server.vercel.app/send-email";
+  const devurl = "http://localhost:5000/send-email";
   const isloder = useContext(loderContext);
     const [formData, setFormData] = useState({
     name: "",
@@ -13,28 +16,54 @@ export const ContactUs = () => {
     message: "",
   });
   const [response, setResponse] = useState("");
+  const { errors, validate } = useFormValidation();
+  const { showAlert } = useAlert();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const successMessages = [
+    (name) => `Your message is flying through the internet tubes, ${name || "friend"}! 🚀`,
+    (name) => `Mail sent! Carrier pigeon engaged for ${name || "you"}. 🕊️`,
+    (name) => `Your words are on their way, ${name || "pal"}—hopefully with good WiFi! 📡`,
+    (name) => `Message delivered! The electrons salute you, ${name || "hero"}. ⚡`,
+    (name) => `Your message is now in the Matrix, ${name || "Neo"}! 🕶️`,
+    (name) => `Mail sent! May the force be with your inbox, ${name || "Jedi"}! ✉️`,
+    (name) => `Your message is off to see the wizard, ${name || "traveler"}! 🧙‍♂️`,
+    (name) => `Sent! Now let's hope it doesn't end up in a black hole, ${name || "space explorer"}. 🕳️`,
+    (name) => `Your message is doing the cha-cha to its destination, ${name || "dancer"}! 💃`,
+    (name) => `Mail sent! The internet hamsters are running fast for you, ${name || "champ"}! 🐹`
+  ];
+
+  function getRandomSuccess(name) {
+    const msgFn = successMessages[Math.floor(Math.random() * successMessages.length)];
+    return msgFn(name);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { isValid, newErrors } = validate(formData);
+    if (!isValid) {
+      showAlert(Object.values(newErrors).join('\n'), "error");
+      return;
+    }
     try {
-      
       isloder.update(true);
-            const res = await axios.post("https://portfolio-shiv-server.vercel.app/send-email", formData);
+      const res = await axios.post(
+        devurl,
+        formData,
+        { withCredentials: true }
+      );
       isloder.update(false);
-      setTimeout(() => {
-        alert(res.data.message)
-      }, 200);
-     
+      showAlert(res.data.message, "info");
+      showAlert(getRandomSuccess(formData.name));
       setResponse(res.data.message);
       setFormData({ name: "", email: "", contact: "", message: "" });
     } catch (error) {
       isloder.update(false);
+      showAlert(error.response?.data?.message || "Failed to send message. Try again later.", "error");
       setResponse("Failed to send message. Try again later.");
-      alert("Failed to send message. Try again later.")
     }
   };
   return (

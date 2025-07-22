@@ -4,8 +4,10 @@ import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { Editor } from '@monaco-editor/react';
 import "./editDb.css";
 import loderContext from '../../context/loderContext';
+import { useAlert } from '../../context/AlertContext';
 
 export const EditDb = ({docId,entityName,Preview,close,jsonData,width,height,addFlag}) => {
+  const {showAlert} = useAlert();
   const [jsonCode,setJsonCode] = useState(JSON.stringify(jsonData, null, 2))
 const [isPrview ,setIsPrview] = useState(false);
 const loader = useContext(loderContext);
@@ -26,7 +28,7 @@ useEffect(()=>{
       const parsed = JSON.parse(jsonCode);
       setJsonCode(JSON.stringify(parsed, null, 2));
     } catch (err) {
-      alert("Invalid JSON!");
+      showAlert("Invalid JSON!","error");
     }
   };
 
@@ -35,7 +37,7 @@ useEffect(()=>{
       const parsed = JSON.parse(jsonCode);
       setJsonCode(JSON.stringify(parsed));
     } catch (err) {
-      alert("Invalid JSON!" + err.message);
+      showAlert("Invalid JSON!" + err.message,"error");
     }
   };
 
@@ -49,20 +51,20 @@ useEffect(()=>{
     loader.update(true)
     if(addFlag){
         const docRef = await addDoc(collection(db, entityName), JSON.parse(jsonCode) );
-        alert(`Added doc with ID : ${docRef.id} in ${entityName} `)
+        showAlert(`Added doc with ID : ${docRef.id} in ${entityName} `)
          window.location.reload();
     }else{
      const docRef = doc(db, entityName, docId);
       await updateDoc(docRef, JSON.parse(jsonCode));
-     
-      alert("Update done")
+
+      showAlert("Update done");
       window.location.reload();
     }
      loader.update(false)
     }catch(err){
         loader.update(false)
-        alert("Error : " + err.message)
-        
+        showAlert("Error : " + err.message,"error");
+
     }
  
 };

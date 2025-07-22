@@ -7,12 +7,32 @@ import isMobileContext from '../context/isMobileContext'
 import { signOut } from "firebase/auth";
 import authContext from '../context/authContext'
 import { auth } from '../config/firebase'
+import { useAlert } from '../context/AlertContext'
 
 
 
 
 export const Navbar = () => {
   // const [name , setName] = useState("<shiv/>")
+  const { showAlert } = useAlert();
+
+  // Marvel-themed random sign-out messages
+  const byeMessages = [
+    "See you, true believer! 🕷️",
+    "You’re leaving? Avengers, assemble next time! 🦸‍♂️",
+    "Hulk says bye! SMASH you later! 💚",
+    "Wakanda will miss you! 🐾",
+    "You’re as legendary as Mjolnir! ⚡",
+    "Stay marvelous! ✨",
+    "Don’t forget your shield, Cap! 🛡️",
+    "May your Spidey-sense guide you! 🕸️",
+    "To infinity... and your next login! 🚀",
+    "Even Loki couldn’t trick you. Bye! 🐍"
+  ];
+
+  const getRandomBye = () =>
+    byeMessages[Math.floor(Math.random() * byeMessages.length)];
+
   let names = {
     "/" : "<shiv/>",
     "/about" : "#about",
@@ -121,9 +141,9 @@ export const Navbar = () => {
                 <li><Link to="/experience" onClick={handleOnclick}>Experience</Link></li>
                 <li><Link to="/contactMe" onClick={handleOnclick}>Contact</Link></li>
               {authUser.user != null &&  <li><button onClick={async () => {
-  await signOut(auth);
-  console.log("User signed out");
-}}>SignOut</button></li> }
+                  await signOut(auth);
+                  showAlert(getRandomBye(), "info");
+                }}>SignOut</button></li> }
 
             </ul> }
         </div>

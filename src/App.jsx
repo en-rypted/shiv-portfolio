@@ -36,7 +36,7 @@ const [showLogin , setShowLogin ] = useState(false);
 
   return (
     <>
-   {isLoader.isLoder ? <Loader/> : ''}
+  
    {showLogin&& <SignIn onClose={()=>{setShowLogin(false)}}></SignIn>}
     <BrowserRouter>
       <Navbar/>

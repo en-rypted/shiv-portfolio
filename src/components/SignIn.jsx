@@ -1,21 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/firebase';
+import { useAlert } from "../context/AlertContext";
+import loderContext from "../context/loderContext";
 
 const SignIn = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const { showAlert } = useAlert(); 
+const loder = useContext(loderContext);
+  // Close popup on ESC key press
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
+
+  const welcomeMessages = [
+    "Welcome back, superstar! 🌟",
+    "You again? Awesome! 😎",
+    "Ready to conquer the day? 🚀",
+    "Back for more? Let's go! 💪",
+    "The legend returns! 🏆",
+    "You make this place better! ✨",
+    "Look who's here! 👀",
+    "High five, you're in! 🙌",
+    "Welcome back, code ninja! 🥷",
+    "Glad to see you again! 😊"
+  ];
+
+  const getRandomWelcome = () =>
+    welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
+      loder.update(true);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("Signed in:", userCredential.user);
+      loder.update(false);
+      showAlert(getRandomWelcome(), "success");
       onClose(); // Close popup after successful login
     } catch (err) {
-      setError(err.message);
+      loder.update(false);
+      showAlert(err.message, "error");
     }
   };
 
@@ -32,7 +66,7 @@ const SignIn = ({ onClose }) => {
             style={styles.input}
             required
           />
-         <div style={styles.passwordWrapper}>
+          <div style={styles.passwordWrapper}>
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -50,7 +84,7 @@ const SignIn = ({ onClose }) => {
               {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
-          {error && <p style={styles.error}>{error}</p>}
+          {/* {error && <p style={styles.error}>{error}</p>} */}
           <button type="submit" style={styles.button}>Sign In</button>
           <button type="button" style={styles.closeButton} onClick={onClose}>✖</button>
         </form>
@@ -120,21 +154,21 @@ const styles = {
     textAlign: "center"
   },
   passwordWrapper: {
-  position: "relative",
-},
+    position: "relative",
+  },
 
-toggleButton: {
-  position: "absolute",
-  right: "0px",
-  top: "50%",
-  transform: "translateY(-50%)",
-  background: "transparent",
-  border: "none",
-  color: "#ccc",
-  fontSize: "18px",
-  cursor: "pointer",
-  
-}
+  toggleButton: {
+    position: "absolute",
+    right: "0px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "transparent",
+    border: "none",
+    color: "#ccc",
+    fontSize: "18px",
+    cursor: "pointer",
+
+  }
 };
 
 export default SignIn;
