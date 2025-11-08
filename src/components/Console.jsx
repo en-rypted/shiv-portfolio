@@ -3,6 +3,7 @@ import './console.css'
 import { ConsoleStructure } from "./ConsoleStructure";
 import { motion } from "motion/react"
 import isMobileContext from "../context/isMobileContext";
+import ChatBot from "./Chatbot";
 
 
 const Console = () => {
@@ -73,6 +74,7 @@ const Console = () => {
         <span id="text" style={{ fontSize : isMobile ? 'x-large' : undefined}}></span></>
       } />
       </motion.div>
+     
     </>
   );
 };

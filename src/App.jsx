@@ -11,8 +11,13 @@ import { ContatctMenu } from './components/ContatctMenu'
 import loderContext from './context/loderContext'
 import { Loader } from './components/animatedComponents/Loader'
 import SignIn from './components/SignIn'
+import ChatBot from './components/Chatbot'
+import isMobileContext from './context/isMobileContext'
+import ChatBotMobile from './components/ChatBotMobile'
+import { FaComments } from 'react-icons/fa'
 
 function App() {
+  const [open, setOpen] = useState(false);
    const isLoader = useContext(loderContext);
 const [showLogin , setShowLogin ] = useState(false);
   const handleKeyPress = useCallback((event) => {
@@ -34,6 +39,8 @@ const [showLogin , setShowLogin ] = useState(false);
     };
   }, [handleKeyPress]);
 
+  const isMobile = useContext(isMobileContext)
+
   return (
     <>
   
@@ -42,6 +49,21 @@ const [showLogin , setShowLogin ] = useState(false);
       <Navbar/>
       <AnimatedRoutes/>
       <ContatctMenu/>
+      {isMobile && 
+      <>
+        {!open && (
+                <button
+                  className="chat-icon"
+                  onClick={() => setOpen(true)}
+                  title="Chat with me!"
+                >
+                  <FaComments size={28} />
+                </button>
+              )}
+        {open && (<ChatBotMobile onClose={()=>setOpen(false)} />)}
+      </>
+      }
+      {!isMobile && <ChatBot />}
     </BrowserRouter>
    
     </>
