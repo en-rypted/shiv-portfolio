@@ -14,7 +14,8 @@ import SignIn from './components/SignIn'
 import ChatBot from './components/Chatbot'
 import isMobileContext from './context/isMobileContext'
 import ChatBotMobile from './components/ChatBotMobile'
-import { FaComments } from 'react-icons/fa'
+import { FaComments, FaPaperPlane } from 'react-icons/fa'
+import ChatBotFull from './components/ChatBotFull'
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -49,21 +50,22 @@ const [showLogin , setShowLogin ] = useState(false);
       <Navbar/>
       <AnimatedRoutes/>
       <ContatctMenu/>
-      {isMobile && 
-      <>
+     
         {!open && (
-                <button
-                  className="chat-icon"
-                  onClick={() => setOpen(true)}
-                  title="Chat with me!"
-                >
-                  <FaComments size={28} />
-                </button>
+               <button
+                         className="chatx-button"
+                         style={{bottom:isMobile?150:22}}
+                         onClick={() => setOpen(true)}
+                         title="Chat with me!"
+                         aria-label="Open chat"
+                       >
+                         <FaComments size={22} />
+                       </button>
               )}
-        {open && (<ChatBotMobile onClose={()=>setOpen(false)} />)}
-      </>
-      }
-      {!isMobile && <ChatBot />}
+        {open && (isMobile ? <ChatBotMobile onClose={()=>setOpen(false)} /> : <ChatBotFull  onClose={()=>setOpen(false)} />)}
+     
+      
+    
     </BrowserRouter>
    
     </>
