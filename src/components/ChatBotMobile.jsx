@@ -226,7 +226,7 @@ const ChatBotMobile = ({ onClose }) => {
   const { showAlert } = useAlert?.() || { showAlert: () => {} };
 
     const WS_URL =
-    true
+    false
       ? "ws://localhost:8000/ws/chat"
       : "wss://personal-chatbot-hp83.onrender.com/ws/chat";
 
