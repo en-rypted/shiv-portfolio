@@ -289,7 +289,7 @@ const ChatBotMobile = ({ onClose }) => {
     };
   
     connect(); // first connect attempt
-  
+   setWs(socket);
     return () => {
       clearTimeout(reconnectTimer);
       socket && socket.close();

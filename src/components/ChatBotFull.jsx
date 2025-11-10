@@ -5,7 +5,7 @@ import "./ChatBotFull.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const ChatBotFull = ({onClose}) => {
+const ChatBotFull = ({ onClose }) => {
   const [ws, setWs] = useState(null);
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -13,14 +13,13 @@ const ChatBotFull = ({onClose}) => {
   const [input, setInput] = useState("");
   const msgEndRef = useRef(null);
   const textareaRef = useRef(null);
-  const [status, setStatus] = useState("connecting"); 
-// "connecting" | "connected" | "reconnecting" | "disconnected"
-
+  const [status, setStatus] = useState("connecting");
+  // "connecting" | "connected" | "reconnecting" | "disconnected"
 
   const { showAlert } = useAlert?.() || { showAlert: () => {} };
 
   // Auto switch ws url
-  const WS_URL ="wss://personal-chatbot-hp83.onrender.com/ws/chat";
+  const WS_URL = "wss://personal-chatbot-hp83.onrender.com/ws/chat";
 
   // useEffect(() => {
   //   const socket = new WebSocket(WS_URL);
@@ -44,54 +43,56 @@ const ChatBotFull = ({onClose}) => {
   // }, [WS_URL, showAlert]);
 
   useEffect(() => {
-  let socket;
-  let reconnectTimer;
+    let socket;
+    let reconnectTimer;
 
-  const connect = () => {
-    setStatus(prev => (prev === "connected" ? prev : "connecting"));
-    socket = new WebSocket(WS_URL);
+    const connect = () => {
+      setStatus((prev) => (prev === "connected" ? prev : "connecting"));
+      socket = new WebSocket(WS_URL);
 
-    socket.onopen = () => {
-      setConnected(true);
-      setStatus("connected");
-      setIsTyping(false);
+      socket.onopen = () => {
+        setConnected(true);
+        setStatus("connected");
+        setIsTyping(false);
+      };
+
+      socket.onmessage = (e) => {
+        setIsTyping(false);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: e.data },
+        ]);
+      };
+
+      socket.onerror = () => {
+        console.log("WebSocket error — reconnecting soon...");
+        socket.close();
+      };
+
+      // socket.onclose = () => {
+      //   setConnected(false);
+      //   setIsTyping(false);
+      //   setStatus("reconnecting");
+
+      //   // 🔁 Try reconnecting every 5 seconds
+      //   reconnectTimer = setTimeout(connect, 5000);
+      // };
+
+      socket.onclose = () => {
+        setTimeout(() => {
+          setStatus("reconnecting");
+        }, 1000);
+        reconnectTimer = setTimeout(connect, 5000);
+      };
     };
 
-    socket.onmessage = (e) => {
-      setIsTyping(false);
-      setMessages((prev) => [...prev, { role: "assistant", content: e.data }]);
+    connect(); // first connect attempt
+    setWs(socket);
+    return () => {
+      clearTimeout(reconnectTimer);
+      socket && socket.close();
     };
-
-    socket.onerror = () => {
-      console.log("WebSocket error — reconnecting soon...");
-      socket.close();
-    };
-
-    // socket.onclose = () => {
-    //   setConnected(false);
-    //   setIsTyping(false);
-    //   setStatus("reconnecting");
-
-    //   // 🔁 Try reconnecting every 5 seconds
-    //   reconnectTimer = setTimeout(connect, 5000);
-    // };
-
-    socket.onclose = () => {
-  setTimeout(() => {
-    setStatus("reconnecting");
-  }, 1000);
-  reconnectTimer = setTimeout(connect, 5000);
-};
-  };
-
-  connect(); // first connect attempt
-
-  return () => {
-    clearTimeout(reconnectTimer);
-    socket && socket.close();
-  };
-}, [WS_URL]);
-
+  }, [WS_URL]);
 
   // auto scroll on new content
   useEffect(() => {
@@ -116,9 +117,12 @@ const ChatBotFull = ({onClose}) => {
   };
 
   const send = () => {
+    console.log(ws.readyState);
+
     if (!input.trim() || !ws || ws.readyState !== WebSocket.OPEN) return;
     try {
       ws.send(input);
+      console.log("Sending message:", input);
       setMessages((prev) => [...prev, { role: "user", content: input }]);
       setInput("");
       setIsTyping(true);
@@ -133,48 +137,47 @@ const ChatBotFull = ({onClose}) => {
       {/* Header */}
       <header className="gptx-header">
         <div className="gptx-title">
-          
           <button className="back-btn" onClick={onClose}>
-             <FaArrowLeft size={18} />
-           </button>
-           <span className={`gptx-dot ${connected ? "ok" : "down"}`} />
-           <span>Shiv's Assistant</span>
+            <FaArrowLeft size={18} />
+          </button>
+          <span className={`gptx-dot ${connected ? "ok" : "down"}`} />
+          <span>Shiv's Assistant</span>
         </div>
         {/* <div className={`gptx-status ${connected ? "ok" : "down"}`}>
           {connected ? "Connected" : "Disconnected"}
         </div> */}
-        <div
-  className={`gptx-status ${status}`}
->
-  {status === "connected" && "🟢 Connected"}
-  {status === "connecting" && "🕓 Connecting..."}
-  {status === "reconnecting" && "⟳ Reconnecting..."}
-  {status === "disconnected" && "🔴 Disconnected"}
-</div>
+        <div className={`gptx-status ${status}`}>
+          {status === "connected" && "🟢 Connected"}
+          {status === "connecting" && "🕓 Connecting..."}
+          {status === "reconnecting" && "⟳ Reconnecting..."}
+          {status === "disconnected" && "🔴 Disconnected"}
+        </div>
       </header>
 
       {/* Messages area */}
       <main className="gptx-main">
         <div className="gptx-stream">
-                {messages.length === 0 && !isTyping && (
-      <div className="gptx-block bot">
-        <div className="gptx-text">
-          Hey there! I'm Shiv's AI assistant.  
-          How can I help you today? 😊
-        </div>
-      </div>
-    )}
+          {messages.length === 0 && !isTyping && (
+            <div className="gptx-block bot">
+              <div className="gptx-text">
+                Hey there! I'm Shiv's AI assistant. How can I help you today? 😊
+              </div>
+            </div>
+          )}
           {messages.map((m, i) => (
             <div
               key={i}
               className={`gptx-block ${m.role === "user" ? "me" : "bot"}`}
             >
-                { m.role === "user" ? <div className="gptx-text">{m.content}</div> :
+              {m.role === "user" ? (
+                <div className="gptx-text">{m.content}</div>
+              ) : (
                 <div className="gptx-text">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {m.content}
-                </ReactMarkdown>
-                </div>}
+                  </ReactMarkdown>
+                </div>
+              )}
             </div>
           ))}
 
