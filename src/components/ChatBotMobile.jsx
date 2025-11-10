@@ -221,29 +221,82 @@ const ChatBotMobile = ({ onClose }) => {
   const [input, setInput] = useState("");
   const msgEndRef = useRef(null);
   const textareaRef = useRef(null);
-
+  const [status, setStatus] = useState("connecting"); 
+// "connecting" | "connected" | "reconnecting" | "disconnected"
   const { showAlert } = useAlert?.() || { showAlert: () => {} };
 
-  const WS_URL = "wss://personal-chatbot-hp83.onrender.com/ws/chat";
+    const WS_URL =
+    true
+      ? "ws://localhost:8000/ws/chat"
+      : "wss://personal-chatbot-hp83.onrender.com/ws/chat";
 
-  useEffect(() => {
-    const socket = new WebSocket(WS_URL);
+  // useEffect(() => {
+  //   const socket = new WebSocket(WS_URL);
 
-    socket.onopen = () => setConnected(true);
-    socket.onclose = () => {
-      setConnected(false);
-      setIsTyping(false);
-    };
-    socket.onerror = () => {
-      setConnected(false);
-    };
-    socket.onmessage = (e) => {
-      setIsTyping(false);
-      setMessages((prev) => [...prev, { role: "assistant", content: e.data }]);
-    };
+  //   socket.onopen = () => setConnected(true);
+  //   socket.onclose = () => {
+  //     setConnected(false);
+  //     setIsTyping(false);
+  //   };
+  //   socket.onerror = () => {
+  //     setConnected(false);
+  //   };
+  //   socket.onmessage = (e) => {
+  //     setIsTyping(false);
+  //     setMessages((prev) => [...prev, { role: "assistant", content: e.data }]);
+  //   };
 
-    setWs(socket);
-    return () => socket.close();
+  //   setWs(socket);
+  //   return () => socket.close();
+  // }, [WS_URL]);
+
+   useEffect(() => {
+    let socket;
+    let reconnectTimer;
+  
+    const connect = () => {
+      setStatus(prev => (prev === "connected" ? prev : "connecting"));
+      socket = new WebSocket(WS_URL);
+  
+      socket.onopen = () => {
+        setConnected(true);
+        setStatus("connected");
+        setIsTyping(false);
+      };
+  
+      socket.onmessage = (e) => {
+        setIsTyping(false);
+        setMessages((prev) => [...prev, { role: "assistant", content: e.data }]);
+      };
+  
+      socket.onerror = () => {
+        console.log("WebSocket error — reconnecting soon...");
+        socket.close();
+      };
+  
+      // socket.onclose = () => {
+      //   setConnected(false);
+      //   setIsTyping(false);
+      //   setStatus("reconnecting");
+  
+      //   // 🔁 Try reconnecting every 5 seconds
+      //   reconnectTimer = setTimeout(connect, 5000);
+      // };
+  
+      socket.onclose = () => {
+    setTimeout(() => {
+      setStatus("reconnecting");
+    }, 1000);
+    reconnectTimer = setTimeout(connect, 5000);
+  };
+    };
+  
+    connect(); // first connect attempt
+  
+    return () => {
+      clearTimeout(reconnectTimer);
+      socket && socket.close();
+    };
   }, [WS_URL]);
 
   useEffect(() => {
@@ -287,9 +340,17 @@ const ChatBotMobile = ({ onClose }) => {
           <FaArrowLeft size={18} />
         </button>
         <span className="title">Shiv's Assistant</span>
-        <span className={`status ${connected ? "ok" : "down"}`}>
+        {/* <span className={`status ${connected ? "ok" : "down"}`}>
           {connected ? "● Online" : "● Offline"}
-        </span>
+        </span> */}
+               <div
+  className={`gptx-status ${status}`}
+>
+  {status === "connected" && "🟢 Connected"}
+  {status === "connecting" && "Connecting..."}
+  {status === "reconnecting" && "Reconnecting..."}
+  {status === "disconnected" && "🔴 Disconnected"}
+</div>
       </header>
 
       {/* Chat area */}

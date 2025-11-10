@@ -191,4 +191,29 @@
     cursor: pointer;
     padding: 4px;
   }
+
+
+  .gptx-status.connecting,
+.gptx-status.reconnecting {
+  color: #28f07e;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gptx-status.connecting::after,
+.gptx-status.reconnecting::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 2px solid #28f07e;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
    

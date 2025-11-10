@@ -22,6 +22,7 @@
 .mobile-header {
   display: flex;
   align-items: center;
+  justify-content: left;
   gap: 12px;
   padding: 14px;
   background: var(--panel2);
@@ -128,3 +129,19 @@
   font-weight: bold;
 }
 .send-btn:disabled { opacity: .45; }
+
+
+.gptx-status.connecting::after,
+.gptx-status.reconnecting::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 2px solid #28f07e;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
