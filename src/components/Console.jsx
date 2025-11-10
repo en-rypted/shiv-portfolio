@@ -15,7 +15,7 @@ const Console = () => {
     },[])
     function loader(event){
         // array with texts to type in typewriter
-        let dataText = [ "Hi !", "I am shiv 😊", "I am a java developer."];
+        let dataText = [ "Hi !", "I am Shiv 😊", "I am a Java developer."];
         
         // type one text in the typwriter
         // keeps calling itself until the text is finished

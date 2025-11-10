@@ -225,10 +225,7 @@ const ChatBotMobile = ({ onClose }) => {
 // "connecting" | "connected" | "reconnecting" | "disconnected"
   const { showAlert } = useAlert?.() || { showAlert: () => {} };
 
-    const WS_URL =
-    false
-      ? "ws://localhost:8000/ws/chat"
-      : "wss://personal-chatbot-hp83.onrender.com/ws/chat";
+    const WS_URL ="wss://personal-chatbot-hp83.onrender.com/ws/chat";
 
   // useEffect(() => {
   //   const socket = new WebSocket(WS_URL);

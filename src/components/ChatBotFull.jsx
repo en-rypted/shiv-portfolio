@@ -20,10 +20,7 @@ const ChatBotFull = ({onClose}) => {
   const { showAlert } = useAlert?.() || { showAlert: () => {} };
 
   // Auto switch ws url
-  const WS_URL =
-    false
-      ? "ws://localhost:8000/ws/chat"
-      : "wss://personal-chatbot-hp83.onrender.com/ws/chat";
+  const WS_URL ="wss://personal-chatbot-hp83.onrender.com/ws/chat";
 
   // useEffect(() => {
   //   const socket = new WebSocket(WS_URL);
