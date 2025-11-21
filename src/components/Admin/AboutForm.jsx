@@ -10,7 +10,7 @@ export const AboutForm = ({ onClose, onSuccess }) => {
     const [uploading, setUploading] = useState(false);
     const [aboutId, setAboutId] = useState('');
     const [formData, setFormData] = useState({
-        profile: '',
+        profile: { url: '', public_id: '' },
         description: ''
     });
 
@@ -47,6 +47,7 @@ export const AboutForm = ({ onClose, onSuccess }) => {
         const data = new FormData();
         data.append('file', file);
         data.append('upload_preset', uploadPreset);
+        data.append('folder', 'shiv-portfolio/about');
         data.append('cloud_name', cloudName);
 
         try {
@@ -56,7 +57,7 @@ export const AboutForm = ({ onClose, onSuccess }) => {
             });
             const result = await res.json();
             setUploading(false);
-            return result.secure_url;
+            return { url: result.secure_url, public_id: result.public_id };
         } catch (error) {
             console.error(error);
             setUploading(false);
@@ -69,9 +70,9 @@ export const AboutForm = ({ onClose, onSuccess }) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        const url = await uploadImage(file);
+        const { url, public_id } = await uploadImage(file);
         if (url) {
-            setFormData(prev => ({ ...prev, profile: url }));
+            setFormData(prev => ({ ...prev, profile: { url, public_id } }));
             showAlert('Profile image uploaded successfully!', 'success');
         }
     };
@@ -111,16 +112,16 @@ export const AboutForm = ({ onClose, onSuccess }) => {
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     <div>
                         <label className="block text-sm font-mono text-slate-300 mb-2">Profile Image</label>
-                        {formData.profile && (
+                        {formData.profile.url && (
                             <div className="mb-2">
-                                <img src={formData.profile} alt="Profile" className="h-32 w-32 rounded-full border border-primary/20" />
+                                <img src={formData.profile.url} alt="Profile" className="h-32 w-32 rounded-full border border-primary/20" />
                             </div>
                         )}
                         <div className="flex gap-2">
                             <input
                                 type="text"
                                 name="profile"
-                                value={formData.profile}
+                                value={formData.profile.url}
                                 onChange={handleChange}
                                 placeholder="Image URL or upload below"
                                 className="flex-1 bg-navy border border-primary/30 rounded px-3 py-2 text-slate-300 focus:border-primary outline-none text-sm"

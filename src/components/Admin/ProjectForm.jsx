@@ -11,7 +11,7 @@ export const ProjectForm = ({ project, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        image: '',
+        image: { url: '', public_id: '' },
         link: '',
         order: 0
     });
@@ -37,7 +37,7 @@ export const ProjectForm = ({ project, onClose, onSuccess }) => {
             // Show preview using local URL
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormData(prev => ({ ...prev, image: reader.result }));
+                setFormData(prev => ({ ...prev, image: { url: reader.result, public_id: '' } }));
             };
             reader.readAsDataURL(file);
         }
@@ -76,7 +76,7 @@ export const ProjectForm = ({ project, onClose, onSuccess }) => {
                 body: data
             });
             const result = await res.json();
-            return result.secure_url;
+            return { url: result.secure_url, public_id: result.public_id };
         } catch (error) {
             console.error(error);
             showAlert('Image upload failed', 'error');
@@ -94,9 +94,9 @@ export const ProjectForm = ({ project, onClose, onSuccess }) => {
             // Upload image if a new file was selected
             if (selectedFile) {
                 showAlert('Uploading image...', 'info');
-                const uploadedUrl = await uploadImage(selectedFile, formData.title || 'untitled');
-                if (uploadedUrl) {
-                    finalImageUrl = uploadedUrl;
+                const { url, public_id } = await uploadImage(selectedFile, formData.title || 'untitled');
+                if (url) {
+                    finalImageUrl = { url, public_id };
                 } else {
                     setLoading(false);
                     return; // Stop if upload failed
@@ -193,16 +193,16 @@ export const ProjectForm = ({ project, onClose, onSuccess }) => {
                     {/* Image Upload */}
                     <div>
                         <label className="block text-sm font-mono text-slate-300 mb-2">Project Image</label>
-                        {formData.image && (
+                        {formData.image.url && (
                             <div className="mb-2">
-                                <img src={formData.image} alt="Preview" className="h-32 w-auto rounded border border-primary/20" />
+                                <img src={formData.image.url} alt="Preview" className="h-32 w-auto rounded border border-primary/20" />
                             </div>
                         )}
                         <div className="flex gap-2">
                             <input
                                 type="text"
                                 name="image"
-                                value={selectedFile ? selectedFile.name : formData.image}
+                                value={selectedFile ? selectedFile.name : formData.image.url}
                                 readOnly={!!selectedFile}
                                 onChange={handleChange}
                                 placeholder="Image URL or select file below"

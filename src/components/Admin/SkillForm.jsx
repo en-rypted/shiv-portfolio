@@ -16,7 +16,7 @@ export const SkillForm = ({ skill, onClose, onSuccess }) => {
         y: 50,
         size: 'medium',
         color: '#34d399',
-        image: ''
+        image: { url: '', public_id: '' }
     });
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export const SkillForm = ({ skill, onClose, onSuccess }) => {
             // Show preview using local URL
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormData(prev => ({ ...prev, image: reader.result }));
+                setFormData(prev => ({ ...prev, image: { url: reader.result, public_id: '' } }));
             };
             reader.readAsDataURL(file);
         }
@@ -79,7 +79,7 @@ export const SkillForm = ({ skill, onClose, onSuccess }) => {
                 body: data
             });
             const result = await res.json();
-            return result.secure_url;
+            return { url: result.secure_url, public_id: result.public_id };
         } catch (error) {
             console.error(error);
             showAlert('Image upload failed', 'error');
@@ -97,9 +97,9 @@ export const SkillForm = ({ skill, onClose, onSuccess }) => {
             // Upload image if a new file was selected
             if (selectedFile) {
                 showAlert('Uploading image...', 'info');
-                const uploadedUrl = await uploadImage(selectedFile, formData.name);
-                if (uploadedUrl) {
-                    finalImageUrl = uploadedUrl;
+                const { url, public_id } = await uploadImage(selectedFile, formData.name);
+                if (url) {
+                    finalImageUrl = { url, public_id };
                 } else {
                     setLoading(false);
                     return; // Stop if upload failed
@@ -198,16 +198,16 @@ export const SkillForm = ({ skill, onClose, onSuccess }) => {
 
                     <div>
                         <label className="block text-sm font-mono text-slate-300 mb-2">Icon/Image (Optional)</label>
-                        {formData.image && (
+                        {formData.image.url && (
                             <div className="mb-2">
-                                <img src={formData.image} alt="Preview" className="h-16 w-16 rounded border border-primary/20" />
+                                <img src={formData.image.url} alt="Preview" className="h-16 w-16 rounded border border-primary/20" />
                             </div>
                         )}
                         <div className="flex gap-2">
                             <input
                                 type="text"
                                 name="image"
-                                value={selectedFile ? selectedFile.name : formData.image}
+                                value={selectedFile ? selectedFile.name : formData.image.url}
                                 readOnly={!!selectedFile}
                                 onChange={handleChange}
                                 placeholder="Image URL or select file below"
