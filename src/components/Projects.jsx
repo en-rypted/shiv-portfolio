@@ -93,7 +93,7 @@ export const Projects = () => {
                     {/* Image Area */}
                     <div className="h-3/5 relative overflow-hidden">
                       <img
-                        src={project.data.image}
+                        src={project.data.image.url}
                         alt={project.data.title}
                         className="w-full h-full object-cover"
                       />
@@ -182,7 +182,7 @@ const ProjectModal = ({ project, onClose }) => {
         {/* Image Header */}
         <div className="h-48 sm:h-64 relative shrink-0">
           <img
-            src={project.data.image}
+            src={project.data.image.url}
             alt={project.data.title}
             className="w-full h-full object-cover"
           />
@@ -245,7 +245,7 @@ const ProjectCard = ({ project, index, isMobile }) => {
         {/* Image Section */}
         <motion.div style={{ y }} className="relative h-64 md:h-full overflow-hidden">
           <img
-            src={project.data.image}
+            src={project.data.image.url}
             alt={project.data.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />

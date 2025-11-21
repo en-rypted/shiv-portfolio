@@ -9,7 +9,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 export const About = () => {
   const isMobile = useContext(isMobileContext)
   const aboutRef = collection(db, "about")
-  const [about, setAbout] = useState({ profile: "", description: "" })
+  const [about, setAbout] = useState({ profile: { url: "", public_id: "" }, description: "" })
   const [isLoading, setIsLoading] = useState(true)
   const [aboutId, setAboutId] = useState("")
 
@@ -113,7 +113,7 @@ export const About = () => {
                       className="relative overflow-hidden rounded-lg border border-primary/20"
                     >
                       <img
-                        src={about.profile}
+                        src={about.profile.url}
                         alt="Profile"
                         className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500"
                       />
