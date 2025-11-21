@@ -13,7 +13,7 @@
 //     const devUrl = "ws://localhost:8000/ws/chat"
 //       const { showAlert } = useAlert();
 //   useEffect(() => {
-    
+
 //     const socket = new WebSocket(prodUrl);
 //     socket.onmessage = (e) => {
 //         setIsTyping(false);   // ✅ hide typing
@@ -213,7 +213,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import { useAlert } from "../context/AlertContext";
-import "./ChatBot.css"; // ⬅️ add this import
+// import "./ChatBot.css"; 
 
 const ChatBot = () => {
   const [ws, setWs] = useState(null);
@@ -302,61 +302,69 @@ const ChatBot = () => {
       {/* Floating Chat Button */}
       {!open && (
         <button
-          className="chatx-button"
+          className="fixed bottom-6 right-6 z-[9999] w-14 h-14 bg-primary text-navy rounded-full shadow-lg flex items-center justify-center hover:bg-primary/80 transition-all duration-300 hover:scale-110 animate-bounce-slow"
           onClick={() => setOpen(true)}
           title="Chat with me!"
           aria-label="Open chat"
         >
-          <FaComments size={22} />
+          <FaComments size={24} />
         </button>
       )}
 
       {/* Panel */}
       {open && (
-        <div className="chatx-panel">
-          <div className="chatx-header">
-            <div className="chatx-title">
-              <span className="dot-online" aria-hidden />
-              Shiv Assistant
+        <div className="fixed bottom-6 right-6 z-[9999] w-80 sm:w-96 bg-navy/90 backdrop-blur-md border border-lightest-navy rounded-xl shadow-2xl flex flex-col overflow-hidden h-[500px] animate-fade-in-up">
+          <div className="bg-light-navy/80 px-4 py-3 flex items-center justify-between border-b border-lightest-navy">
+            <div className="flex items-center gap-2">
+              <span className={`w-2 h-2 rounded-full ${connected ? "bg-green-500" : "bg-red-500"} animate-pulse`}></span>
+              <span className="font-bold text-slate-200">Shiv Assistant</span>
             </div>
-            <div className={`chatx-status ${connected ? "ok" : "down"}`}>
-              {connected ? "Connected" : "Disconnected"}
-            </div>
-            <button className="chatx-close" onClick={() => setOpen(false)} aria-label="Close chat">
+            <button
+              className="text-slate-400 hover:text-white transition-colors"
+              onClick={() => setOpen(false)}
+              aria-label="Close chat"
+            >
               ✖
             </button>
           </div>
 
-          <div className="chatx-body">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-lightest-navy scrollbar-track-transparent">
             {messages.map((m, i) => (
-              <div key={i} className={`chatx-bubble ${m.sender}`}>
-                <div className="chatx-text">{m.text}</div>
+              <div key={i} className={`flex ${m.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] p-3 rounded-lg text-sm ${m.sender === 'me'
+                    ? 'bg-primary text-navy rounded-br-none'
+                    : 'bg-light-navy text-slate-300 rounded-bl-none'
+                  }`}>
+                  {m.text}
+                </div>
               </div>
             ))}
 
             {isTyping && (
-              <div className="chatx-bubble bot typing">
-                <span className="tick" />
-                <span className="tick" />
-                <span className="tick" />
+              <div className="flex justify-start">
+                <div className="bg-light-navy p-3 rounded-lg rounded-bl-none flex gap-1">
+                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></span>
+                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100"></span>
+                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200"></span>
+                </div>
               </div>
             )}
 
             <div ref={msgEndRef} />
           </div>
 
-          <div className="chatx-inputbar">
+          <div className="p-3 bg-light-navy/50 border-t border-lightest-navy flex gap-2 items-end">
             <textarea
               ref={textareaRef}
-              className="chatx-input"
-              placeholder="Type a message…  (Enter to send • Shift+Enter = new line)"
+              className="flex-1 bg-navy/50 border border-lightest-navy rounded-lg p-2 text-sm text-slate-300 focus:outline-none focus:border-primary resize-none max-h-32 scrollbar-hide"
+              placeholder="Type a message..."
               value={input}
               onChange={onChangeInput}
               onKeyDown={onKeyDown}
               rows={1}
             />
             <button
-              className="chatx-send"
+              className="p-2 bg-primary text-navy rounded-lg hover:bg-primary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={sendMsg}
               disabled={!connected || !input.trim()}
               aria-label="Send message"
