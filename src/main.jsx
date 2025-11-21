@@ -11,15 +11,13 @@ import { Auth } from './context/Auth.jsx'
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <IsLoder>
+  <IsLoder>
     <IsMobile>
       <Auth>
-    <AlertProvider>
-    <App />
-    </AlertProvider>
-    </Auth>
+        <AlertProvider>
+          <App />
+        </AlertProvider>
+      </Auth>
     </IsMobile>
-    </IsLoder>
-  </StrictMode>,
+  </IsLoder>,
 )

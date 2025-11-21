@@ -1,74 +1,34 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Console from './components/Console'
-import { Navbar } from './components/Navbar'
-import { About } from './components/About'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AnimatedRoutes } from './components/AnimatedRoutes'
-import { ContatctMenu } from './components/ContatctMenu'
-import loderContext from './context/loderContext'
-import { Loader } from './components/animatedComponents/Loader'
-import SignIn from './components/SignIn'
-import ChatBot from './components/Chatbot'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import isMobileContext from './context/isMobileContext'
-import ChatBotMobile from './components/ChatBotMobile'
-import { FaComments, FaPaperPlane } from 'react-icons/fa'
-import ChatBotFull from './components/ChatBotFull'
+import { useMediaQuery } from 'react-responsive'
+import authContext from './context/authContext'
+import { auth } from './config/firebase'
+import { Home } from './components/Home'
+import { AdminDashboard } from './components/Admin/AdminDashboard'
 
 function App() {
-  const [open, setOpen] = useState(false);
-   const isLoader = useContext(loderContext);
-const [showLogin , setShowLogin ] = useState(false);
-  const handleKeyPress = useCallback((event) => {
-    // check if the Shift key is pressed
-    if (event.shiftKey === true) {
-      if(event.key === "L"){
-        setShowLogin(true);
-      }
-    }
-  }, []);
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // attach the event listener
-    document.addEventListener('keydown', handleKeyPress);
-
-    // remove the event listener
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [handleKeyPress]);
-
-  const isMobile = useContext(isMobileContext)
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user ? user : null)
+    })
+    return () => unsubscribe()
+  }, [])
 
   return (
-    <>
-  
-   {showLogin&& <SignIn onClose={()=>{setShowLogin(false)}}></SignIn>}
-    <BrowserRouter>
-      <Navbar/>
-      <AnimatedRoutes/>
-      <ContatctMenu/>
-     
-        {!open && (
-               <button
-                         className="chatx-button"
-                         style={{bottom:isMobile?150:22}}
-                         onClick={() => setOpen(true)}
-                         title="Chat with me!"
-                         aria-label="Open chat"
-                       >
-                         <FaComments size={22} />
-                       </button>
-              )}
-        {open && (isMobile ? <ChatBotMobile onClose={()=>setOpen(false)} /> : <ChatBotFull  onClose={()=>setOpen(false)} />)}
-     
-      
-    
-    </BrowserRouter>
-   
-    </>
+    <isMobileContext.Provider value={isMobile}>
+      <authContext.Provider value={{ user, setUser }}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Routes>
+        </Router>
+      </authContext.Provider>
+    </isMobileContext.Provider>
   )
 }
 

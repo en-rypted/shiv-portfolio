@@ -1,217 +1,6 @@
-// import React, { useState, useEffect, useRef } from "react";
-// import { FaArrowLeft, FaPaperPlane } from "react-icons/fa";
-
-// const ChatBotMobile = ({ onClose }) => {
-//   const [ws, setWs] = useState(null);
-//   const [messages, setMessages] = useState([]);
-//   const [input, setInput] = useState("");
-//   const msgEndRef = useRef(null);
-//   const [isTyping, setIsTyping] = useState(false);
-
-//   const prodUrl = "wss://personal-chatbot-hp83.onrender.com/ws/chat";
-
-//   useEffect(() => {
-//     const socket = new WebSocket(prodUrl);
-//     socket.onmessage = (e) =>
-//      socket.onmessage = (e) => {
-//   setIsTyping(false);   // ✅ hide typing
-//   setMessages((prev) => [...prev, { sender: "bot", text: e.data }]);
-// };
-//     setWs(socket);
-//     return () => socket.close();
-//   }, []);
-
-// //   useEffect(() => {
-// //   const handleFocus = () => {
-// //     setTimeout(() => {
-// //       msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-// //     }, 200);
-// //   };
-// //   const input = document.querySelector(".mobile-chat-input input");
-// //   input?.addEventListener("focus", handleFocus);
-// //   return () => input?.removeEventListener("focus", handleFocus);
-// // }, []);
-
-// // // ✅ Fix for mobile keyboard pushing input off-screen
-// // useEffect(() => {
-// //   const onResize = () => {
-// //     const vh = window.visualViewport?.height;
-// //     if (vh) {
-// //       document.querySelector(".mobile-chat-wrapper").style.height = vh + "px";
-// //     }
-// //   };
-
-// //   window.visualViewport?.addEventListener("resize", onResize);
-// //   return () => window.visualViewport?.removeEventListener("resize", onResize);
-// // }, []);
-
-//   const sendMsg = () => {
-//     if (!input.trim()) return;
-//     ws.send(input);
-//     setMessages((prev) => [...prev, { sender: "me", text: input }]);
-//     setInput("");
-//     setIsTyping(true);  
-//   };
-
-//   useEffect(() => {
-//     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages]);
-
-//   return (
-//     <div className="mobile-chat-wrapper">
-//       <div className="mobile-chat-header">
-//        <button className="back-btn" onClick={onClose}>
-//     <FaArrowLeft size={18} />
-//   </button>
-//   <span>Shiv's Assistant</span>
-//         </div>
-
-//       <div className="mobile-chat-body">
-//         {messages.map((msg, i) => (
-//           <div key={i} className={`msg ${msg.sender}`}>
-//             {msg.text}
-//           </div>
-//         ))}
-//         {isTyping && (
-//   <div className="msg bot typing">
-//     <span className="dot"></span>
-//     <span className="dot"></span>
-//     <span className="dot"></span>
-//   </div>
-// )}
-//         <div ref={msgEndRef} />
-//       </div>
-
-//       <div className="mobile-chat-input">
-//         <input
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//           onKeyDown={(e) => e.key === "Enter" && sendMsg()}
-//           placeholder="Type a message..."
-//         />
-//         <button onClick={sendMsg}>
-//           <FaPaperPlane />
-//         </button>
-//       </div>
-
-//       <style>{`
-//         .mobile-chat-wrapper {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100vw;
-//   height: 100dvh; 
-//   display: flex;
-//   flex-direction: column;
-//   background: #111;
-//   z-index: 9999;
-// }
-//          .mobile-chat-header {
-//     padding: 14px;
-//     font-size: 18px;
-//     font-weight: bold;
-//     background: #222;
-//     display: flex;
-//     align-items: center;
-//     border-bottom: 1px solid #333;
-//   }
-//   .mobile-chat-header span {
-//     margin-left: 10px;
-//   }
-//   .back-btn {
-//     background: none;
-//     border: none;
-//     color: white;
-//     cursor: pointer;
-//     padding: 4px;
-//   }
-//         .mobile-chat-body {
-//           flex: 1;
-//           padding: 12px;
-//           overflow-y: auto;
-//           background: #181818;
-//            padding-bottom: 80px;
-//         }
-//         .msg {
-//           margin: 6px 0;
-//           max-width: 85%;
-//           padding: 10px 14px;
-//           border-radius: 12px;
-//           font-size: 15px;
-//         }
-//         .msg.me {
-//           background: #ffb300;
-//           color: black;
-//           margin-left: auto;
-//           border-bottom-right-radius: 0;
-//         }
-//         .msg.bot {
-//           background: #333;
-//           color: white;
-//           border-bottom-left-radius: 0;
-//         }
-//         .mobile-chat-input {
-//           display: flex;
-//           background: #222;
-//           padding: 10px;
-//         }
-//         .mobile-chat-input input {
-//           flex: 1;
-//           padding: 10px;
-//           border: none;
-//           background: #111;
-//           color: white;
-//           outline: none;
-//           border-radius: 6px;
-//         }
-//         .mobile-chat-input button {
-//           background: #ffb300;
-//           border: none;
-//           padding: 0 14px;
-//           margin-left: 8px;
-//           border-radius: 6px;
-//           color: black;
-//         }
-//           .msg.typing {
-//   display: flex;
-//   gap: 4px;
-//   width: fit-content;
-//   background: #252525ff;
-//   color: white;
-//   padding: 8px 12px;
-//   border-radius: 10px;
-//   opacity: 0.8;
-// }
-
-// .dot {
-//   width: 6px;
-//   height: 6px;
-//   background: white;
-//   border-radius: 50%;
-//   animation: blink 1.4s infinite both;
-// }
-
-// .dot:nth-child(2) { animation-delay: 0.2s; }
-// .dot:nth-child(3) { animation-delay: 0.4s; }
-
-// @keyframes blink {
-//   0% { opacity: .2; }
-//   20% { opacity: 1; }
-//   100% { opacity: .2; }
-// }
-
-//       `}</style>
-//     </div>
-//   );
-// };
-
-// export default ChatBotMobile;
-
-
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaPaperPlane } from "react-icons/fa";
 import { useAlert } from "../context/AlertContext";
-import "./ChatBotMobile.css";
 
 const ChatBotMobile = ({ onClose }) => {
   const [ws, setWs] = useState(null);
@@ -221,80 +10,56 @@ const ChatBotMobile = ({ onClose }) => {
   const [input, setInput] = useState("");
   const msgEndRef = useRef(null);
   const textareaRef = useRef(null);
-  const [status, setStatus] = useState("connecting"); 
-// "connecting" | "connected" | "reconnecting" | "disconnected"
-  const { showAlert } = useAlert?.() || { showAlert: () => {} };
+  const [status, setStatus] = useState("connecting");
 
-    const WS_URL ="wss://personal-chatbot-hp83.onrender.com/ws/chat";
+  // Safe useAlert usage
+  const alertContext = useAlert();
+  const showAlert = alertContext ? alertContext.showAlert : () => { };
 
-  // useEffect(() => {
-  //   const socket = new WebSocket(WS_URL);
+  const WS_URL = "wss://personal-chatbot-hp83.onrender.com/ws/chat";
 
-  //   socket.onopen = () => setConnected(true);
-  //   socket.onclose = () => {
-  //     setConnected(false);
-  //     setIsTyping(false);
-  //   };
-  //   socket.onerror = () => {
-  //     setConnected(false);
-  //   };
-  //   socket.onmessage = (e) => {
-  //     setIsTyping(false);
-  //     setMessages((prev) => [...prev, { role: "assistant", content: e.data }]);
-  //   };
-
-  //   setWs(socket);
-  //   return () => socket.close();
-  // }, [WS_URL]);
-
-   useEffect(() => {
+  useEffect(() => {
+    console.log("ChatBotMobile mounted");
     let socket;
     let reconnectTimer;
-  
+
     const connect = () => {
       setStatus(prev => (prev === "connected" ? prev : "connecting"));
       socket = new WebSocket(WS_URL);
-  
+      setWs(socket); // Update state with new socket
+
       socket.onopen = () => {
         setConnected(true);
         setStatus("connected");
         setIsTyping(false);
       };
-  
+
       socket.onmessage = (e) => {
         setIsTyping(false);
         setMessages((prev) => [...prev, { role: "assistant", content: e.data }]);
       };
-  
-      socket.onerror = () => {
-        console.log("WebSocket error — reconnecting soon...");
+
+      socket.onerror = (err) => {
+        console.error("WebSocket error:", err);
         socket.close();
       };
-  
-      // socket.onclose = () => {
-      //   setConnected(false);
-      //   setIsTyping(false);
-      //   setStatus("reconnecting");
-  
-      //   // 🔁 Try reconnecting every 5 seconds
-      //   reconnectTimer = setTimeout(connect, 5000);
-      // };
-  
+
       socket.onclose = () => {
-    setTimeout(() => {
-      setStatus("reconnecting");
-    }, 1000);
-    reconnectTimer = setTimeout(connect, 5000);
-  };
+        console.log("WebSocket closed");
+        setConnected(false);
+        setStatus("reconnecting");
+        reconnectTimer = setTimeout(connect, 5000);
+      };
     };
-  
-    connect(); // first connect attempt
-   setWs(socket);
+
+    connect();
+
     return () => {
+      console.log("ChatBotMobile unmounting");
       clearTimeout(reconnectTimer);
-      socket && socket.close();
+      if (socket) socket.close();
     };
-  }, [WS_URL]);
+  }, []);
 
   useEffect(() => {
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -324,53 +89,70 @@ const ChatBotMobile = ({ onClose }) => {
       setIsTyping(true);
       if (textareaRef.current) textareaRef.current.style.height = "48px";
     } catch {
-      showAlert?.("Failed to send. Please try again.", "error");
+      showAlert("Failed to send. Please try again.", "error");
     }
   };
 
   return (
-    <div className="mobile-root">
-      
+    <div
+      className="fixed inset-0 flex flex-col"
+      style={{
+        zIndex: 999999,
+        backgroundColor: '#020c09', // Force navy color
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      }}
+    >
+
       {/* Header */}
-      <header className="mobile-header">
-        <button className="back-btn" onClick={onClose}>
-          <FaArrowLeft size={18} />
-        </button>
-        <span className="title">Shiv's Assistant</span>
-        {/* <span className={`status ${connected ? "ok" : "down"}`}>
-          {connected ? "● Online" : "● Offline"}
-        </span> */}
-               <div
-  className={`gptx-status ${status}`}
->
-  {status === "connected" && "🟢 Connected"}
-  {status === "connecting" && "Connecting..."}
-  {status === "reconnecting" && "Reconnecting..."}
-  {status === "disconnected" && "🔴 Disconnected"}
-</div>
+      <header className="bg-light-navy px-4 py-3 flex items-center justify-between border-b border-lightest-navy shadow-md shrink-0">
+        <div className="flex items-center gap-3">
+          <button className="text-slate-300 hover:text-white p-2 -ml-2" onClick={onClose}>
+            <FaArrowLeft size={20} />
+          </button>
+          <span className="font-bold text-lg text-slate-200">Shiv's Assistant</span>
+        </div>
+
+        <div className={`text-xs px-2 py-1 rounded-full ${status === "connected" ? "bg-green-500/20 text-green-400" :
+          status === "connecting" ? "bg-yellow-500/20 text-yellow-400" :
+            "bg-red-500/20 text-red-400"
+          }`}>
+          {status === "connected" && "● Connected"}
+          {status === "connecting" && "● Connecting..."}
+          {status === "reconnecting" && "● Reconnecting..."}
+          {status === "disconnected" && "● Disconnected"}
+        </div>
       </header>
 
       {/* Chat area */}
-      <main className="mobile-main">
-        <div className="stream">
+      <main className="flex-1 overflow-y-auto p-4 space-y-4 bg-navy overscroll-contain">
+        <div className="flex flex-col gap-4 pb-20">
 
           {/* Default welcome message */}
           {messages.length === 0 && !isTyping && (
-            <div className="bubble bot">
+            <div className="bg-light-navy p-4 rounded-xl rounded-bl-none max-w-[85%] text-slate-300 self-start shadow-md">
               Hey there! I'm Shiv's AI assistant.<br />
               How can I help you today? 😊
             </div>
           )}
 
           {messages.map((m, i) => (
-            <div key={i} className={`bubble ${m.role}`}>
+            <div key={i} className={`max-w-[85%] p-3 rounded-xl text-sm shadow-md ${m.role === 'user'
+              ? 'bg-primary text-navy self-end rounded-br-none'
+              : 'bg-light-navy text-slate-300 self-start rounded-bl-none'
+              }`}>
               {m.content}
             </div>
           ))}
 
           {isTyping && (
-            <div className="bubble bot typing">
-              <span className="tdot" /><span className="tdot" /><span className="tdot" />
+            <div className="bg-light-navy p-3 rounded-xl rounded-bl-none self-start flex gap-1 shadow-md w-fit">
+              <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></span>
+              <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100"></span>
+              <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200"></span>
             </div>
           )}
 
@@ -379,10 +161,10 @@ const ChatBotMobile = ({ onClose }) => {
       </main>
 
       {/* Input */}
-      <div className="mobile-inputbar">
+      <div className="bg-light-navy p-3 border-t border-lightest-navy flex gap-2 items-end pb-safe shrink-0">
         <textarea
           ref={textareaRef}
-          className="mobile-input"
+          className="flex-1 bg-navy border border-lightest-navy rounded-xl p-3 text-base text-slate-300 focus:outline-none focus:border-primary resize-none max-h-32"
           placeholder="Type a message…"
           rows={1}
           value={input}
@@ -390,11 +172,11 @@ const ChatBotMobile = ({ onClose }) => {
           onKeyDown={onKeyDown}
         />
         <button
-          className="send-btn"
+          className="p-3 bg-primary text-navy rounded-xl hover:bg-primary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
           onClick={send}
           disabled={!connected || !input.trim()}
         >
-          <FaPaperPlane size={16} />
+          <FaPaperPlane size={20} />
         </button>
       </div>
 

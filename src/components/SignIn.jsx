@@ -3,14 +3,15 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/firebase';
 import { useAlert } from "../context/AlertContext";
 import loderContext from "../context/loderContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SignIn = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { showAlert } = useAlert(); 
-const loder = useContext(loderContext);
+  const { showAlert } = useAlert();
+  const loder = useContext(loderContext);
+
   // Close popup on ESC key press
   useEffect(() => {
     const handleEsc = (e) => {
@@ -54,121 +55,71 @@ const loder = useContext(loderContext);
   };
 
   return (
-    <div style={styles.overlay}>
-      <div style={styles.popup}>
-        <h2 style={styles.title}>Sign In</h2>
-        <form onSubmit={handleSignIn} style={styles.form}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-            required
-          />
-          <div style={styles.passwordWrapper}>
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{ ...styles.input, paddingRight: "70px" }}
-              required
-            />
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-navy/80 backdrop-blur-sm flex justify-center items-center z-[1000]"
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          className="bg-light-navy/90 border border-lightest-navy p-8 rounded-xl shadow-2xl w-full max-w-md relative"
+        >
+          <button
+            type="button"
+            className="absolute top-4 right-4 text-slate-400 hover:text-primary transition-colors text-xl"
+            onClick={onClose}
+          >
+            ✖
+          </button>
+
+          <h2 className="text-3xl font-bold text-slate-100 mb-6 text-center">Sign In</h2>
+
+          <form onSubmit={handleSignIn} className="flex flex-col gap-4">
+            <div className="group">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-navy/50 border border-lightest-navy rounded-lg px-4 py-3 text-slate-300 focus:outline-none focus:border-primary transition-colors placeholder-slate-500"
+                required
+              />
+            </div>
+
+            <div className="relative group">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-navy/50 border border-lightest-navy rounded-lg px-4 py-3 text-slate-300 focus:outline-none focus:border-primary transition-colors placeholder-slate-500 pr-12"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+
             <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              style={styles.toggleButton}
-              title={showPassword ? "Hide password" : "Show password"}
+              type="submit"
+              className="mt-4 bg-primary text-navy font-bold py-3 rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
             >
-              {showPassword ? "🙈" : "👁️"}
+              Sign In
             </button>
-          </div>
-          {/* {error && <p style={styles.error}>{error}</p>} */}
-          <button type="submit" style={styles.button}>Sign In</button>
-          <button type="button" style={styles.closeButton} onClick={onClose}>✖</button>
-        </form>
-      </div>
-    </div>
+          </form>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
-};
-
-
-
-const styles = {
-  overlay: {
-    position: "fixed",
-    top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1000,
-  },
-  popup: {
-    backgroundColor: "#1e1e1e",
-    color: "white",
-    padding: "2rem",
-    borderRadius: "12px",
-    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.3)",
-    minWidth: "320px",
-    position: "relative",
-  },
-  title: {
-    marginBottom: "1rem",
-    textAlign: "center"
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem"
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #555",
-    backgroundColor: "#2a2a2a",
-    color: "#fff"
-  },
-  button: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "none",
-    backgroundColor: "#007acc",
-    color: "#fff",
-    cursor: "pointer"
-  },
-  closeButton: {
-    position: "absolute",
-    top: "8px",
-    right: "10px",
-    background: "transparent",
-    border: "none",
-    color: "#aaa",
-    fontSize: "18px",
-    cursor: "pointer"
-  },
-  error: {
-    color: "red",
-    fontSize: "14px",
-    textAlign: "center"
-  },
-  passwordWrapper: {
-    position: "relative",
-  },
-
-  toggleButton: {
-    position: "absolute",
-    right: "0px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    background: "transparent",
-    border: "none",
-    color: "#ccc",
-    fontSize: "18px",
-    cursor: "pointer",
-
-  }
 };
 
 export default SignIn;
