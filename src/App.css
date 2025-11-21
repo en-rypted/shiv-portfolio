@@ -1,2 +1,23 @@
-
-
+/* Floating trigger button */
+.chatx-button {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #101712, #0d130f);
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45), 0 0 0 0 var(--ring);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .25s ease, border-color .2s ease;
+  z-index: 9998;
+}
+.chatx-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.55), 0 0 0 6px var(--ring);
+}

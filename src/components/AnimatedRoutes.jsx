@@ -7,6 +7,7 @@ import { Projects } from './Projects'
 import { Skills } from './Skills'
 import { ContactUs } from './ContactUs'
 import { Experience } from './Experience'
+import ChatBot from './Chatbot'
 
 export const AnimatedRoutes = () => {
     const location = useLocation()
@@ -21,6 +22,7 @@ export const AnimatedRoutes = () => {
     <Route path="/skills"  element={<Skills/>}/>
     <Route path="/experience"  element={<Experience/>}/>
     <Route path="/contactMe"  element={<ContactUs/>}/>
+    {/* <Route path="/chatbot"  element={<ChatBot/>}/> */}
   </Routes>
   </AnimatePresence>
   )
