@@ -61,14 +61,18 @@ const Console = () => {
     return () => clearInterval(glitchInterval)
   }, [])
 
-  const codeSnippet = `class Developer {
-  constructor() {
+  const codeSnippet = `public class Developer {
+  private String name;
+  private String role;
+  private String[] skills;
+
+  public Developer() {
     this.name = "Shiv Wakchaure";
     this.role = "Java Developer";
-    this.skills = ["Java", "Spring", "React"];
+    this.skills = new String[]{"Java", "Spring", "React"};
   }
   
-  build() {
+  public String build() {
     return "Innovative Solutions";
   }
 }`
@@ -196,9 +200,18 @@ const Console = () => {
                       >
                         <span className="text-slate-600 mr-4 select-none">{String(i + 1).padStart(2, '0')}</span>
                         <span dangerouslySetInnerHTML={{
-                          __html: line
-                            .replace(/class|constructor|this|return/g, '<span class="text-primary">$&</span>')
-                            .replace(/"([^"]*)"/g, '<span class="text-tertiary">"$1"</span>')
+                          __html: line.replace(
+                            /("[^"]*")|\b(public|private|class|void|return|new|this|extends|implements|static|final)\b|\b([A-Z][a-zA-Z0-9_]*)\b|\b([a-z][a-zA-Z0-9_]*)(?=\()|(\.[a-zA-Z0-9_]+)|\b(\d+)\b/g,
+                            (match, str, keyword, cls, method, field, num) => {
+                              if (str) return `<span class="text-[#6a8759]">${str}</span>`; // Green (Strings)
+                              if (keyword) return `<span class="text-[#cc7832] font-semibold">${keyword}</span>`; // Orange (Keywords)
+                              if (cls) return `<span class="text-[#a9b7c6]">${cls}</span>`; // Light Grey (Classes)
+                              if (method) return `<span class="text-[#ffc66d]">${method}</span>`; // Yellow (Methods)
+                              if (field) return `<span class="text-[#9876aa]">${field}</span>`; // Purple (Fields)
+                              if (num) return `<span class="text-[#6897bb]">${num}</span>`; // Blue (Numbers)
+                              return match;
+                            }
+                          )
                         }} />
                       </motion.div>
                     ))}
