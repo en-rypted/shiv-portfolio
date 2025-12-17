@@ -11,6 +11,7 @@ export const AboutForm = ({ onClose, onSuccess }) => {
     const [aboutId, setAboutId] = useState('');
     const [formData, setFormData] = useState({
         profile: { url: '', public_id: '' },
+        resume: { url: '', public_id: '' },
         description: ''
     });
 
@@ -34,7 +35,7 @@ export const AboutForm = ({ onClose, onSuccess }) => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const uploadImage = async (file) => {
+    const uploadImage = async (file, customPublicId = null) => {
         const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
         const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
@@ -47,24 +48,35 @@ export const AboutForm = ({ onClose, onSuccess }) => {
         const data = new FormData();
         data.append('file', file);
         data.append('upload_preset', uploadPreset);
-        data.append('folder', 'shiv-portfolio/about');
+        data.append('folder', 'shiv-portfolio/about'); // Keep default folder
         data.append('cloud_name', cloudName);
 
+        if (customPublicId) {
+            data.append('public_id', customPublicId);
+        }
+
         try {
+            // Using 'image/upload' which handles PDFs as images/documents and is safer for standard presets
             const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                 method: 'POST',
                 body: data
             });
             const result = await res.json();
             setUploading(false);
+            if (result.error) {
+                console.error(result.error);
+                throw new Error(result.error.message);
+            }
             return { url: result.secure_url, public_id: result.public_id };
         } catch (error) {
             console.error(error);
             setUploading(false);
-            showAlert('Image upload failed', 'error');
+            showAlert('Upload failed: ' + error.message, 'error');
             return null;
         }
     };
+
+
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
@@ -74,6 +86,18 @@ export const AboutForm = ({ onClose, onSuccess }) => {
         if (url) {
             setFormData(prev => ({ ...prev, profile: { url, public_id } }));
             showAlert('Profile image uploaded successfully!', 'success');
+        }
+    };
+
+    const handleResumeUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Force the public_id to be 'resume' so it overwrites or keeps a consistent name
+        const { url, public_id } = await uploadImage(file);
+        if (url) {
+            setFormData(prev => ({ ...prev, resume: { url, public_id } }));
+            showAlert('Resume uploaded successfully!', 'success');
         }
     };
 
@@ -139,6 +163,32 @@ export const AboutForm = ({ onClose, onSuccess }) => {
                             </label>
                         </div>
                         {uploading && <p className="text-xs text-primary mt-1">Uploading...</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-mono text-slate-300 mb-2">Resume (PDF)</label>
+                        <div className="flex gap-2 items-center">
+                            <div className="flex-1 bg-navy border border-primary/30 rounded px-3 py-2 text-slate-300 text-sm truncate">
+                                {formData.resume?.url ? (
+                                    <a href={formData.resume.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                                        {formData.resume.url}
+                                    </a>
+                                ) : (
+                                    <span className="text-slate-500">No resume uploaded</span>
+                                )}
+                            </div>
+                            <label className="px-4 py-2 bg-primary/20 border border-primary text-primary rounded cursor-pointer hover:bg-primary/30 flex items-center gap-2">
+                                <FaUpload />
+                                Upload PDF
+                                <input
+                                    type="file"
+                                    accept="application/pdf"
+                                    onChange={handleResumeUpload}
+                                    className="hidden"
+                                    disabled={uploading}
+                                />
+                            </label>
+                        </div>
                     </div>
 
                     <div>

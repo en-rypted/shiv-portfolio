@@ -7,7 +7,7 @@ import { ProjectForm } from './ProjectForm'
 import { ExperienceForm } from './ExperienceForm'
 import { SkillForm } from './SkillForm'
 import { AboutForm } from './AboutForm'
-import { FaEdit, FaTrash, FaPlus, FaSignOutAlt, FaLayerGroup, FaCode, FaBriefcase, FaUser } from 'react-icons/fa'
+import { FaEdit, FaTrash, FaPlus, FaSignOutAlt, FaLayerGroup, FaCode, FaBriefcase, FaUser, FaBars, FaTimes } from 'react-icons/fa'
 import { signOut } from 'firebase/auth'
 
 export const AdminDashboard = () => {
@@ -18,6 +18,7 @@ export const AdminDashboard = () => {
     const [showForm, setShowForm] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [showLogin, setShowLogin] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // Show login when not authenticated
     useEffect(() => {
@@ -98,18 +99,72 @@ export const AdminDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-navy flex text-slate-300 font-sans">
-            <aside className="w-64 bg-light-navy border-r border-primary/20 flex flex-col">
-                <div className="p-6 border-b border-primary/20">
-                    <h1 className="text-2xl font-bold text-primary font-mono">ADMIN_PANEL</h1>
-                    <p className="text-xs text-slate-500 mt-1">Welcome, {user.email}</p>
+        <div className="min-h-screen bg-navy flex flex-col md:flex-row text-slate-300 font-sans relative">
+            {/* Mobile Header */}
+            <div className="md:hidden p-4 bg-light-navy border-b border-primary/20 flex justify-between items-center sticky top-0 z-40 w-full">
+                <h1 className="text-lg font-bold text-primary font-mono">ADMIN_PANEL</h1>
+                <button
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="text-primary text-xl p-2 hover:bg-white/5 rounded transition-colors"
+                >
+                    <FaBars />
+                </button>
+            </div>
+
+            {/* Mobile Overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
+            {/* Sidebar */}
+            <aside className={`
+                fixed inset-y-0 left-0 z-50 w-64 bg-light-navy border-r border-primary/20 flex flex-col 
+                transform transition-transform duration-300 ease-in-out
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+                md:relative md:translate-x-0 md:static md:inset-auto md:h-screen
+            `}>
+                <div className="p-6 border-b border-primary/20 flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold text-primary font-mono">ADMIN_PANEL</h1>
+                        <p className="text-xs text-slate-500 mt-1">Welcome, {user.email}</p>
+                    </div>
+                    {/* Close button for mobile */}
+                    <button
+                        onClick={() => setIsSidebarOpen(false)}
+                        className="md:hidden text-slate-400 hover:text-white transition-colors"
+                    >
+                        <FaTimes />
+                    </button>
                 </div>
 
-                <nav className="flex-1 p-4 space-y-2">
-                    <SidebarItem icon={<FaUser />} label="About" active={activeTab === 'about'} onClick={() => setActiveTab('about')} />
-                    <SidebarItem icon={<FaLayerGroup />} label="Skills" active={activeTab === 'skills'} onClick={() => setActiveTab('skills')} />
-                    <SidebarItem icon={<FaCode />} label="Projects" active={activeTab === 'projects'} onClick={() => setActiveTab('projects')} />
-                    <SidebarItem icon={<FaBriefcase />} label="Experience" active={activeTab === 'experience'} onClick={() => setActiveTab('experience')} />
+                <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+                    <SidebarItem
+                        icon={<FaUser />}
+                        label="About"
+                        active={activeTab === 'about'}
+                        onClick={() => { setActiveTab('about'); setIsSidebarOpen(false); }}
+                    />
+                    <SidebarItem
+                        icon={<FaLayerGroup />}
+                        label="Skills"
+                        active={activeTab === 'skills'}
+                        onClick={() => { setActiveTab('skills'); setIsSidebarOpen(false); }}
+                    />
+                    <SidebarItem
+                        icon={<FaCode />}
+                        label="Projects"
+                        active={activeTab === 'projects'}
+                        onClick={() => { setActiveTab('projects'); setIsSidebarOpen(false); }}
+                    />
+                    <SidebarItem
+                        icon={<FaBriefcase />}
+                        label="Experience"
+                        active={activeTab === 'experience'}
+                        onClick={() => { setActiveTab('experience'); setIsSidebarOpen(false); }}
+                    />
                 </nav>
 
                 <div className="p-4 border-t border-primary/20">
@@ -119,7 +174,7 @@ export const AdminDashboard = () => {
                 </div>
             </aside>
 
-            <main className="flex-1 p-8 overflow-y-auto">
+            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-64px)] md:h-screen">
                 <div className="max-w-5xl mx-auto">
                     <div className="flex justify-between items-center mb-8">
                         <h2 className="text-3xl font-bold text-slate-100 font-mono capitalize">
@@ -138,31 +193,31 @@ export const AdminDashboard = () => {
                             <p className="text-slate-400 mb-4">Click "Edit About" to update your profile information.</p>
                         </div>
                     ) : (
-                        <div className="grid gap-4">
+                        <div className="flex flex-col gap-4 w-full min-w-0">
                             {isLoading ? (
                                 <p className="text-primary font-mono">Loading data...</p>
                             ) : (
                                 data.map((item) => (
-                                    <div key={item.id} className="bg-light-navy/50 border border-primary/10 p-4 rounded-lg flex justify-between items-center group hover:border-primary/30 transition-all">
-                                        <div>
-                                            <h3 className="font-bold text-lg text-slate-200">
+                                    <div key={item.id} className="bg-light-navy/50 border border-primary/10 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group hover:border-primary/30 transition-all w-full">
+                                        <div className="w-full md:w-auto overflow-hidden min-w-0">
+                                            <h3 className="font-bold text-lg text-slate-200 truncate">
                                                 {item.data.title || item.data.name || item.data.companyName || "Untitled"}
                                             </h3>
-                                            <p className="text-sm text-slate-500 font-mono truncate max-w-md">
+                                            <p className="text-sm text-slate-500 font-mono truncate max-w-full md:max-w-md">
                                                 {item.data.description || item.data.category || item.data.role || ''}
                                             </p>
                                         </div>
-                                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex gap-2 w-full md:w-auto justify-end opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                                             <button
                                                 onClick={() => handleEdit(item)}
-                                                className="p-2 bg-blue-500/20 text-blue-400 rounded hover:bg-blue-500/40"
+                                                className="p-2 bg-blue-500/20 text-blue-400 rounded hover:bg-blue-500/40 transition-colors"
                                                 title="Edit"
                                             >
                                                 <FaEdit />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(item.id)}
-                                                className="p-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/40"
+                                                className="p-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/40 transition-colors"
                                                 title="Delete"
                                             >
                                                 <FaTrash />
