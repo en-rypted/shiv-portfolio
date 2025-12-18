@@ -3,34 +3,45 @@ import { motion } from 'framer-motion'
 import isMobileContext from '../context/isMobileContext'
 import { db } from '../config/firebase'
 import { collection, getDocs } from 'firebase/firestore'
+import useFetch from '../hooks/useFetch'
+import { API } from '../api'
 
 export const Skills = () => {
   const isMobile = useContext(isMobileContext);
   const [skills, setSkills] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isloading, setLoading] = useState(true);
 
   const categories = ['core', 'frontend', 'backend', 'database', 'devops', 'tools'];
 
+  const { data, loading, error } = useFetch(API.skills);
+
+  // useEffect(() => {
+  //   const fetchSkills = async () => {
+  //     try {
+  //       const querySnapshot = await getDocs(collection(db, 'skills'));
+  //       const skillsList = querySnapshot.docs.map(doc => ({
+  //         id: doc.id,
+  //         ...doc.data()
+  //       }));
+  //       setSkills(skillsList);
+  //     } catch (error) {
+  //       console.error("Error fetching skills:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchSkills();
+  // }, []);
+
   useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'skills'));
-        const skillsList = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setSkills(skillsList);
-      } catch (error) {
-        console.error("Error fetching skills:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (data) {
+      setSkills(data);
+      setLoading(false);
+    }
+  }, [data]);
 
-    fetchSkills();
-  }, []);
-
-  if (loading) {
+  if (isloading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-navy">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
