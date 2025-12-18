@@ -5,28 +5,39 @@ import { db } from '../config/firebase'
 import { getDocs, collection } from 'firebase/firestore'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
+import { API } from '../api'
+import useFetch from '../hooks/useFetch'
 export const About = () => {
   const isMobile = useContext(isMobileContext)
   const aboutRef = collection(db, "about")
   const [about, setAbout] = useState({ profile: { url: "", public_id: "" }, description: "" })
   const [isLoading, setIsLoading] = useState(true)
   const [aboutId, setAboutId] = useState("")
+  const { data, loading, error } = useFetch(API.about)
 
   useEffect(() => {
-    const getAbout = async () => {
-      try {
-        const data = await getDocs(aboutRef)
-        const filteredData = data.docs[0].data()
-        setAboutId(data.docs[0].id)
-        setAbout(filteredData)
-        setIsLoading(false)
-      } catch (error) {
-        console.error(error)
-      }
+    if (data) {
+      setAbout(data[0])
+      setIsLoading(false)
     }
-    getAbout()
-  }, [])
+  }, [data])
+
+  // useEffect(() => {
+  //   const getAbout = async () => {
+  //     try {
+  //       // const data = await getDocs(aboutRef)
+
+  //       //  const filteredData = data.docs[0].data()
+  //       // setAboutId(data.docs[0].id)
+
+  //       setAbout(data.documents[0].fields)
+  //       setIsLoading(false)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   getAbout()
+  // }, [])
 
   const [activeTab, setActiveTab] = useState('profile');
 

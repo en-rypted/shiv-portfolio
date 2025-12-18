@@ -6,31 +6,42 @@ import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../config/firebase';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { FaTimes, FaChevronRight } from 'react-icons/fa';
+import useFetch from '../hooks/useFetch';
+import { API } from '../api';
 
 export const Experience = () => {
   const [isLoding, setIsLoading] = useState(true);
   const [viewExp, setViewExp] = useState(null); // For modal
 
   const experiencesRef = collection(db, "experiences");
-  const [experiences, setexperiences] = useState([{ id: "", data: { companyName: "", duration: "", role: "", desc: "", order: 0 } }]);
+  const [experiences, setexperiences] = useState([{ id: "", companyName: "", duration: "", role: "", desc: "", order: 0 }]);
+
+  const { data, loading, error } = useFetch(API.experiences);
 
   useEffect(() => {
-    const getExeriences = async () => {
-      try {
-        const data = await getDocs(experiencesRef);
-        if (data.docs.length == 0) {
-          return;
-        }
-        const filterdData = data.docs.map(e => { return { id: e.id, data: e.data() } });
-        const sortedData = filterdData.sort((a, b) => a.data.order - b.data.order);
-        setexperiences(sortedData)
-        setIsLoading(false)
-      } catch (error) {
-        console.error(error)
-      }
+    if (data) {
+      setexperiences([...data]);
+      setIsLoading(false);
     }
-    getExeriences();
-  }, [])
+  }, [data]);
+
+  // useEffect(() => {
+  //   const getExeriences = async () => {
+  //     try {
+  //       const data = await getDocs(experiencesRef);
+  //       if (data.docs.length == 0) {
+  //         return;
+  //       }
+  //       const filterdData = data.docs.map(e => { return { id: e.id, data: e.data() } });
+  //       const sortedData = filterdData.sort((a, b) => a.data.order - b.data.order);
+  //       setexperiences(sortedData)
+  //       setIsLoading(false)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   getExeriences();
+  // }, [])
 
   const isMobile = useContext(isMobileContext)
 
@@ -111,16 +122,16 @@ export const Experience = () => {
                         <div className="w-2 h-2 rounded-full bg-primary"></div>
                         <span className="text-xs text-slate-400 font-mono">commit_{String(i + 1).padStart(2, '0')}</span>
                       </div>
-                      <h3 className="text-xl font-bold text-slate-100 mb-1 line-clamp-1">{exp.data.companyName}</h3>
-                      <div className="text-primary text-xs mb-2">{exp.data.duration}</div>
+                      <h3 className="text-xl font-bold text-slate-100 mb-1 line-clamp-1">{exp.companyName}</h3>
+                      <div className="text-primary text-xs mb-2">{exp.duration}</div>
                       <div className="text-green-400 text-sm font-mono line-clamp-1">
-                        {exp.data.role}
+                        {exp.role}
                       </div>
                     </div>
 
                     <div>
                       <p className="text-slate-400 text-xs line-clamp-3 mb-4 font-sans">
-                        {exp.data.desc}
+                        {exp.desc}
                       </p>
                       <div className="text-primary text-xs font-mono text-right">
                         [TAP FOR DETAILS]
@@ -153,14 +164,14 @@ export const Experience = () => {
                         <div className="flex items-start gap-4 mb-4">
                           <span className="text-tertiary">commit</span>
                           <div className="flex-1">
-                            <h3 className="text-3xl font-bold text-slate-100 mb-2">{exp.data.companyName}</h3>
-                            <div className="text-primary text-sm mb-4">{exp.data.duration}</div>
+                            <h3 className="text-3xl font-bold text-slate-100 mb-2">{exp.companyName}</h3>
+                            <div className="text-primary text-sm mb-4">{exp.duration}</div>
                             <div className="text-green-400 text-lg mb-6">
-                              <span className="text-slate-500 text-sm">Author:</span> {exp.data.role}
+                              <span className="text-slate-500 text-sm">Author:</span> {exp.role}
                             </div>
                             <div className="bg-navy/50 border border-primary/20 rounded p-6 mt-4">
                               <p className="text-slate-300 text-base leading-relaxed font-sans">
-                                {exp.data.desc}
+                                {exp.desc}
                               </p>
                             </div>
                           </div>
@@ -226,20 +237,20 @@ const ExperienceModal = ({ exp, onClose }) => {
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
-          <h3 className="text-2xl font-bold text-slate-100 font-mono mb-1">{exp.data.companyName}</h3>
-          <div className="text-primary text-sm font-mono">{exp.data.duration}</div>
+          <h3 className="text-2xl font-bold text-slate-100 font-mono mb-1">{exp.companyName}</h3>
+          <div className="text-primary text-sm font-mono">{exp.duration}</div>
         </div>
 
         {/* Content */}
         <div className="p-6 overflow-y-auto custom-scrollbar">
           <div className="mb-6">
             <span className="text-slate-500 font-mono text-xs block mb-1">ROLE</span>
-            <div className="text-green-400 font-bold text-lg">{exp.data.role}</div>
+            <div className="text-green-400 font-bold text-lg">{exp.role}</div>
           </div>
 
           <div className="bg-navy/30 border border-primary/10 rounded-lg p-4">
             <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap font-sans">
-              {exp.data.desc}
+              {exp.desc}
             </p>
           </div>
         </div>

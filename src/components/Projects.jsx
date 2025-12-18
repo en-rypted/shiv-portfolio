@@ -6,6 +6,8 @@ import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { FaTimes, FaExternalLinkAlt, FaChevronRight } from 'react-icons/fa'
+import useFetch from '../hooks/useFetch'
+import { API } from '../api'
 
 export const Projects = () => {
   const isMobile = useContext(isMobileContext)
@@ -14,20 +16,29 @@ export const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
 
+  const { data, loading, error } = useFetch(API.projects);
+
   useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const data = await getDocs(projectsRef);
-        const filterdData = data.docs.map(e => { return { id: e.id, data: e.data() } });
-        const sortedData = filterdData.sort((a, b) => a.data.order - b.data.order);
-        setProjects(sortedData)
-        setIsLoading(false)
-      } catch (error) {
-        console.error(error)
-      }
+    if (data) {
+      setProjects(data);
+      setIsLoading(false);
     }
-    getProjects();
-  }, [])
+  }, [data]);
+
+  // useEffect(() => {
+  //   const getProjects = async () => {
+  //     try {
+  //       const data = await getDocs(projectsRef);
+  //       const filterdData = data.docs.map(e => { return { id: e.id, data: e.data() } });
+  //       const sortedData = filterdData.sort((a, b) => a.data.order - b.data.order);
+  //       setProjects(sortedData)
+  //       setIsLoading(false)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   getProjects();
+  // }, [])
 
   return (
     <div className="relative w-full py-20 px-4 overflow-hidden">
@@ -93,8 +104,8 @@ export const Projects = () => {
                     {/* Image Area */}
                     <div className="h-3/5 relative overflow-hidden">
                       <img
-                        src={project.data.image.url}
-                        alt={project.data.title}
+                        src={project.image.url}
+                        alt={project.title}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent" />
@@ -105,7 +116,7 @@ export const Projects = () => {
                           // PROJECT_{String(index + 1).padStart(2, '0')}
                         </div>
                         <h3 className="text-2xl font-bold text-slate-100 font-mono leading-tight">
-                          {project.data.title}
+                          {project.title}
                         </h3>
                       </div>
                     </div>
@@ -113,7 +124,7 @@ export const Projects = () => {
                     {/* Content Area */}
                     <div className="p-4 flex-1 flex flex-col justify-between bg-navy/40">
                       <p className="text-slate-400 text-sm line-clamp-3 font-sans">
-                        {project.data.description}
+                        {project.description}
                       </p>
                       <div className="flex items-center gap-2 text-primary text-xs font-mono mt-4">
                         <span>[TAP TO VIEW DETAILS]</span>
@@ -182,14 +193,14 @@ const ProjectModal = ({ project, onClose }) => {
         {/* Image Header */}
         <div className="h-48 sm:h-64 relative shrink-0">
           <img
-            src={project.data.image.url}
-            alt={project.data.title}
+            src={project.image.url}
+            alt={project.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-light-navy to-transparent" />
           <div className="absolute bottom-4 left-6">
             <h3 className="text-3xl font-bold text-slate-100 font-mono tracking-tight shadow-black drop-shadow-lg">
-              {project.data.title}
+              {project.title}
             </h3>
           </div>
         </div>
@@ -202,12 +213,12 @@ const ProjectModal = ({ project, onClose }) => {
 
           <div className="bg-navy/30 border border-primary/10 rounded-lg p-4 mb-6">
             <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
-              {project.data.description}
+              {project.description}
             </p>
           </div>
 
           <a
-            href={project.data.link}
+            href={project.link}
             target="_blank"
             rel="noreferrer"
             className="block w-full text-center py-3 bg-primary/10 border border-primary text-primary font-mono font-bold rounded hover:bg-primary hover:text-navy transition-all active:scale-95"
@@ -245,8 +256,8 @@ const ProjectCard = ({ project, index, isMobile }) => {
         {/* Image Section */}
         <motion.div style={{ y }} className="relative h-64 md:h-full overflow-hidden">
           <img
-            src={project.data.image.url}
-            alt={project.data.title}
+            src={project.image.url}
+            alt={project.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-navy/60 to-transparent"></div>
@@ -258,13 +269,13 @@ const ProjectCard = ({ project, index, isMobile }) => {
             // PROJECT_{String(index + 1).padStart(2, '0')}
           </div>
           <h3 className="text-3xl font-bold text-slate-100 mb-4 font-mono">
-            {project.data.title}
+            {project.title}
           </h3>
           <p className="text-slate-400 mb-6 leading-relaxed">
-            {project.data.description}
+            {project.description}
           </p>
           <a
-            href={project.data.link}
+            href={project.link}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors font-mono font-bold"
